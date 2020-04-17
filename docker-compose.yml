@@ -1,0 +1,9 @@
+version: '3'
+services:
+  node:
+    build: .
+    image: solid-driver-users
+    volumes:
+      - .:/app
+    ports:
+      - 3000:3000
