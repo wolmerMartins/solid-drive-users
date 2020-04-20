@@ -7,5 +7,10 @@ services:
     image: solid-driver-users
     volumes:
       - .:/app
+  pushpin:
+    image: fanout/pushpin:1.28.0
+    environment:
+      target: node:3000
     ports:
-      - 3000:3000
+      - 3000:7999
+      - 5561:5561
