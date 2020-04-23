@@ -13,4 +13,3 @@ services:
       target: node:3000
     ports:
       - 3000:7999
-      - 5561:5561
