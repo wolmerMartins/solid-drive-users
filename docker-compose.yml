@@ -7,9 +7,24 @@ services:
     image: solid-driver-users
     volumes:
       - .:/app
+    depends_on:
+      - pushpin
+      - db
   pushpin:
     image: fanout/pushpin:1.28.0
     environment:
       target: node:3000
     ports:
       - 3000:7999
+  db:
+    image: mysql:8.0.19
+    restart: always
+    environment:
+      MYSQL_DATABASE: solid_drive
+      MYSQL_USER: solid
+      MYSQL_PASSWORD: solid
+      MYSQL_ROOT_PASSWORD: solid
+    volumes:
+      - /mysql_data:/var/lib/mysql
+    ports:
+      - 3306:3306
