@@ -6,6 +6,13 @@ const config = {
   },
   pushpin: {
     publishUrl: 'http://pushpin:5561/publish'
+  },
+  db: {
+    database: 'solid_drive',
+    user: 'solid',
+    password: 'solid',
+    host: 'db',
+    dialect: 'mysql'
   }
 }
 
