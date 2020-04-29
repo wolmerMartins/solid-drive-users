@@ -30,7 +30,7 @@ const setup = async (sequelize) => {
 
   await User.sync()
 
-  exports.User = User
+  module.exports.User = User
 }
 
 module.exports = setup
