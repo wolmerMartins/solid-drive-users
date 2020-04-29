@@ -25,8 +25,8 @@ const setup = async ({
 
   try {
     await sequelize.authenticate()
-    model(sequelize)
-    console.log('Database connection has been established successfully.')
+    await model(sequelize)
+    console.log('Database connected and user table created successfully.')
   } catch(err) {
     console.log('Unable to connect to the database:', err)
   }
