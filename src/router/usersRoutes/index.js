@@ -4,19 +4,20 @@ const express = require('express')
 const router = express.Router()
 
 const pushpin = require('../../controllers/pushpin')
+const validateUser = require('../../controllers/validateUser')
 
-router.post('/', (req, res) => {
-  const { body: { username } } = req
+router.post('/', async (req, res) => {
+  const { body } = req
 
-  if (!username) {
-    return res
-      .status(400)
-      .json({
-        message: 'Username must be informed',
-        code: 'bodyValidation0',
-        type: 'validation'
-      })
+  try {
+    await validateUser(body)
+  } catch(err) {
+    const { message, code, statusCode } = err
+
+    return res.status(statusCode ?? 400).json({ message, code })
   }
+
+  const { username } = body
 
   const channel = pushpin.getChannel({ channelName: username })
 
