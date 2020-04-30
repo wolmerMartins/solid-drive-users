@@ -36,9 +36,7 @@ const validationInvalidParameterError = (
 ) => validationErrorSchema(INVALID_PARAMETER_CODE, field, messageCode, required);
 
 const validateIfIsUnique = async (findBy, field) => {
-  const user = await model.User.findOne({
-    where: { ...findBy }
-  })
+  const user = await model.findOne(findBy)
 
   if (user) {
     const {
