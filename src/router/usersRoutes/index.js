@@ -4,6 +4,7 @@ const express = require('express')
 const router = express.Router()
 
 const pushpin = require('../../controllers/pushpin')
+const userController = require('../../controllers/user')
 const validateUser = require('../../controllers/validateUser')
 
 router.post('/', async (req, res) => {
@@ -11,22 +12,19 @@ router.post('/', async (req, res) => {
 
   try {
     await validateUser(body)
+
+    const { username } = body
+  
+    const channel = pushpin.getChannel({ channelName: username })
+  
+    pushpin.sign.response({ res, channel })
+
+    userController.create(body, channel)
   } catch(err) {
     const { message, code, statusCode } = err
 
     return res.status(statusCode ?? 400).json({ message, code })
   }
-
-  const { username } = body
-
-  const channel = pushpin.getChannel({ channelName: username })
-
-  pushpin.sign.response({ res, channel })
-
-  pushpin.publish.response({
-    data: { hello: 'from user route', using: 'pushpin' },
-    channel
-  })
 })
 
 module.exports = router
