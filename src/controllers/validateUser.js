@@ -35,8 +35,8 @@ const validationInvalidParameterError = (
   required
 ) => validationErrorSchema(INVALID_PARAMETER_CODE, field, messageCode, required);
 
-const validateIfIsUnique = async (findBy, field) => {
-  const user = await model.findOne(findBy)
+const validateIfIsUnique = async (where, field) => {
+  const user = await model.findUser(where)
 
   if (user) {
     const {
@@ -134,16 +134,7 @@ const validateUserRequiredFields = user => {
   }
 }
 
-const validateUser = user => new Promise(async (resolve, reject) => {
-  try {
-    validateUserRequiredFields(user)
-    await validateUsername(user)
-    await validateEmail(user)
-    validatePassword(user)
-    resolve(user)
-  } catch(err) {
-    reject(err)
-  }
-})
-
-module.exports = validateUser
+exports.validateUserRequiredFields = validateUserRequiredFields
+exports.validateUsername = validateUsername
+exports.validateEmail = validateEmail
+exports.validatePassword = validatePassword
