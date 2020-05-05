@@ -5,13 +5,21 @@ const router = express.Router()
 
 const pushpin = require('../../controllers/pushpin')
 const userController = require('../../controllers/user')
-const validateUser = require('../../controllers/validateUser')
+const {
+  validateUserRequiredFields,
+  validateUsername,
+  validateEmail,
+  validatePassword
+} = require('../../controllers/validateUser')
 
 router.post('/', async (req, res) => {
   const { body } = req
 
   try {
-    await validateUser(body)
+    validateUserRequiredFields(body)
+    await validateUsername(body)
+    await validateEmail(body)
+    validatePassword(body)
 
     const { username } = body
   
