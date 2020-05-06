@@ -30,14 +30,13 @@ const setup = async (sequelize) => {
 
   await User.sync()
 
-  module.exports.createUser = async userData => {
-    const user = await User.create(userData, { raw: true })
-    return user
+  module.exports.createUser = userData => {
+    return User.create(userData, { raw: true })
   }
 
-  module.exports.findOne = async findBy => {
-    const user = await User.findOne({ where: { ...findBy } })
-    return user
+  module.exports.findUser = where => {
+    return User.findOne({ where }, { raw: true })
+    
   }
 }
 
