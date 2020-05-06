@@ -1,16 +1,8 @@
 'use strict'
 
-const crypto = require('crypto')
-
 const pushpin = require('./pushpin')
 const model = require('../models/User')
-
-const hashPassword = ({ password }) => {
-  const salt = crypto.randomBytes(16).toString('base64')
-  const hash = crypto.createHmac('sha512', salt).update(password).digest('base64')
-
-  return `${salt}$${hash}`
-}
+const { hashPassword } = require('./password')
 
 const userController = {
   create: async (body, channel) => {
