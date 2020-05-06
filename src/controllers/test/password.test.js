@@ -12,11 +12,11 @@ describe('password', () => {
     it('Should create a hash from the given password', () => {
       const hashPass = hashPassword({ password })
 
-      expect(hashPass.length)
-        .to.be.equal(113)
+      expect(hashPass)
+        .to.have.lengthOf(113)
 
-      expect(hashPass.split('$').length)
-        .to.be.equal(2)
+      expect(hashPass.split('$'))
+        .to.have.lengthOf(2)
 
       expect(hashPass)
         .to.not.be.equal(password)
