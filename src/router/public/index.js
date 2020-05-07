@@ -3,6 +3,7 @@
 const express = require('express')
 const router = express.Router()
 
+const routerLogger = require('../logger')
 const pushpin = require('../../controllers/pushpin')
 const userController = require('../../controllers/user')
 const {
@@ -11,6 +12,8 @@ const {
   validateEmail,
   validatePassword
 } = require('../../controllers/validateUser')
+
+const logger = routerLogger.child({ module: 'public' })
 
 router.post('/', async (req, res) => {
   const { body } = req
@@ -28,8 +31,10 @@ router.post('/', async (req, res) => {
     pushpin.sign.response({ res, channel })
 
     userController.create(body, channel)
-  } catch(err) {
-    const { message, code, statusCode } = err
+  } catch(error) {
+    const { message, code, statusCode } = error
+
+    logger.error({ error }, 'An error has occurred on /POST')
 
     return res.status(statusCode ?? 400).json({ message, code })
   }
