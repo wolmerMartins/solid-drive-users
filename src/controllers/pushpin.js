@@ -3,6 +3,9 @@
 const axios = require('axios')
 
 const config = require('../config/config')
+const controllerLogger = require('./logger')
+
+const logger = controllerLogger.child({ module: 'pushpin' })
 
 const mountFormatObject = ({ data, realtime }) => {
   const publishData = `${JSON.stringify(data)}\n`
@@ -53,6 +56,11 @@ const signToChannel = ({ res, channel, realtime }) => {
     'Grip-Channel': channel,
     ...setChannelHeaders(realtime)
   }
+
+  logger.info({
+    channel,
+    realtime: Boolean(realtime)
+  }, 'User signed to channel')
 
   res
     .writeHead(200, headers)
