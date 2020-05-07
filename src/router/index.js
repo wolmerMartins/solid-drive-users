@@ -3,9 +3,9 @@
 const express = require('express')
 const router = express.Router()
 
-const usersRoutes = require('./usersRoutes')
+const publicRoutes = require('./public')
 
-router.use('/api/v1/users', usersRoutes)
+router.use('/api/v1/users', publicRoutes)
 
 router.use((req, res) => res
   .status(404)
