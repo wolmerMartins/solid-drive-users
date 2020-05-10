@@ -4,6 +4,7 @@
   "description": "A simple file manager",
   "main": "src/index.js",
   "scripts": {
+    "test": "NODE_ENV=test mocha test",
     "test:unit": "NODE_ENV=test mocha test/unit-tests",
     "start:dev": "nodemon"
   },
