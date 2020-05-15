@@ -9,7 +9,10 @@ const {
   CODES,
   MESSAGES,
   USER_TYPE,
+  LOGIN_TYPE,
+  NOT_FOUND_CODE,
   MAX_LENGTH_CODE,
+  AUTH_FAILED_CODE,
   NOT_CONTAIN_LETTERS,
   NOT_CONTAIN_NUMBERS,
   MISSING_PARAMETER_CODE,
@@ -84,6 +87,40 @@ describe('validationErrorSchema', () => {
       expect(message)
         .to
         .equal(`${MESSAGES[INVALID_PARAMETER_CODE]}: username: ${MESSAGES[MAX_LENGTH_CODE]} 30`)
+    })
+  })
+
+  describe('not found', () => {
+    it('Should return a NOT FOUND error message with username: test', () => {
+      const { code, message } = validationErrorSchema(LOGIN_TYPE, NOT_FOUND_CODE, { username: 'test' })
+
+      expect(code)
+        .to.equal(CODES[LOGIN_TYPE][NOT_FOUND_CODE])
+
+      expect(message)
+        .to.equal(`${MESSAGES[NOT_FOUND_CODE]}: User: username: test`)
+    })
+
+    it('Should return a NOT FOUND error message with email: test@test.com', () => {
+      const { code, message } = validationErrorSchema(LOGIN_TYPE, NOT_FOUND_CODE, { email: 'test@test.com' })
+
+      expect(code)
+        .to.equal(CODES[LOGIN_TYPE][NOT_FOUND_CODE])
+
+      expect(message)
+        .to.equal(`${MESSAGES[NOT_FOUND_CODE]}: User: email: test@test.com`)
+    })
+  })
+
+  describe('auth failed', () => {
+    it('Should return an AUTH FAILED error message', () => {
+      const { code, message } = validationErrorSchema(LOGIN_TYPE, AUTH_FAILED_CODE)
+
+      expect(code)
+        .to.equal(CODES[LOGIN_TYPE][AUTH_FAILED_CODE])
+
+      expect(message)
+        .to.equal(`${MESSAGES[AUTH_FAILED_CODE]}`)
     })
   })
 })
