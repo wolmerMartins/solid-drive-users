@@ -1,6 +1,6 @@
 FROM node:14.0.0-stretch
 
-ENV NODE_ENV=development
+ENV NODE_ENV=production
 
 EXPOSE 4000
 
@@ -18,4 +18,4 @@ USER solid
 
 COPY . /app
 
-CMD ["npm", "run", "start:dev"]
+CMD ["npm", "start"]

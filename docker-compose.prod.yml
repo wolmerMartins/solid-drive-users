@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  node:
+    build:
+      context: .
+      dockerfile: prod.dockerfile
+    image: solid-drive-users
+    environment:
+      NODE_ENV: production
+    depends_on:
+      - pushpin
+  pushpin:
+    image: fanout/pushpin:1.28.0
+    environment:
+      target: node:4000
+    ports:
+      - 4000:7999

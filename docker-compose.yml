@@ -5,6 +5,14 @@ services:
       context: .
       dockerfile: dev.dockerfile
     image: solid-driver-users
+    environment:
+      NODE_ENV: development
+      DEV_PORT: 4000
+      DEV_DB_HOST: db
+      DEV_DB_USER: solid
+      DEV_DB_PASSWORD: solid
+      DEV_DB_NAME: solid_drive
+      DEV_PUSHPIN_PUBLISH: http://pushpin:5561/publish
     volumes:
       - .:/app
     depends_on:
@@ -13,9 +21,9 @@ services:
   pushpin:
     image: fanout/pushpin:1.28.0
     environment:
-      target: node:3000
+      target: node:4000
     ports:
-      - 3000:7999
+      - 4000:7999
   db:
     image: mysql:8.0.19
     restart: always
