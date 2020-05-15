@@ -6,7 +6,9 @@ const expect = chai.expect
 const validationErrorSchema = require('../validationErrorSchema')
 
 const {
+  CODES,
   MESSAGES,
+  USER_TYPE,
   MAX_LENGTH_CODE,
   NOT_CONTAIN_LETTERS,
   NOT_CONTAIN_NUMBERS,
@@ -20,11 +22,11 @@ describe('validationErrorSchema', () => {
 
   describe('missing parameter', () => {
     it('Should return a MISSING PARAMETER error message', () => {
-      const { code, message } = validationErrorSchema(MISSING_PARAMETER_CODE, missedParameters)
+      const { code, message } = validationErrorSchema(USER_TYPE, MISSING_PARAMETER_CODE, missedParameters)
 
       expect(code)
         .to
-        .equal(MISSING_PARAMETER_CODE)
+        .equal(CODES[USER_TYPE][MISSING_PARAMETER_CODE])
 
       expect(message)
         .to
@@ -34,11 +36,11 @@ describe('validationErrorSchema', () => {
 
   describe('invalid parameter', () => {
     it('Should return an INVALID PARAMETER error message', () => {
-      const { code, message } = validationErrorSchema(INVALID_PARAMETER_CODE, 'email')
+      const { code, message } = validationErrorSchema(USER_TYPE, INVALID_PARAMETER_CODE, 'email')
 
       expect(code)
         .to
-        .equal(INVALID_PARAMETER_CODE)
+        .equal(CODES[USER_TYPE][INVALID_PARAMETER_CODE])
 
       expect(message)
         .to
@@ -46,11 +48,11 @@ describe('validationErrorSchema', () => {
     })
 
     it('Should return an INVALID PARAMETER error message with a specific message', () => {
-      const { code, message } = validationErrorSchema(INVALID_PARAMETER_CODE, 'password', NOT_CONTAIN_LETTERS)
+      const { code, message } = validationErrorSchema(USER_TYPE, INVALID_PARAMETER_CODE, 'password', NOT_CONTAIN_LETTERS)
 
       expect(code)
         .to
-        .equal(INVALID_PARAMETER_CODE)
+        .equal(CODES[USER_TYPE][INVALID_PARAMETER_CODE])
 
       expect(message)
         .to
@@ -61,11 +63,11 @@ describe('validationErrorSchema', () => {
       const {
         code,
         message
-      } = validationErrorSchema(INVALID_PARAMETER_CODE, 'password', [NOT_CONTAIN_NUMBERS, NOT_CONTAIN_SPECIAL_CHARACTER])
+      } = validationErrorSchema(USER_TYPE, INVALID_PARAMETER_CODE, 'password', [NOT_CONTAIN_NUMBERS, NOT_CONTAIN_SPECIAL_CHARACTER])
 
       expect(code)
         .to
-        .equal(INVALID_PARAMETER_CODE)
+        .equal(CODES[USER_TYPE][INVALID_PARAMETER_CODE])
 
       expect(message)
         .to
@@ -73,11 +75,11 @@ describe('validationErrorSchema', () => {
     })
 
     it('Should return an INVALID PARAMETER error message with a specific message and a required parameter', () => {
-      const { code, message } = validationErrorSchema(INVALID_PARAMETER_CODE, 'username', MAX_LENGTH_CODE, 30)
+      const { code, message } = validationErrorSchema(USER_TYPE, INVALID_PARAMETER_CODE, 'username', MAX_LENGTH_CODE, 30)
 
       expect(code)
         .to
-        .equal(INVALID_PARAMETER_CODE)
+        .equal(CODES[USER_TYPE][INVALID_PARAMETER_CODE])
 
       expect(message)
         .to
