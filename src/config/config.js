@@ -1,28 +1,29 @@
 'use strict'
 
-require('custom-env').env(true)
+const setEnvPrefix = () => {
+  const { env: { NODE_ENV } } = process
+  
+  if (NODE_ENV === 'production') return 'PROD_'
+  if (NODE_ENV === 'development') return 'DEV_'
+  return 'TST_'
+}
 
-const {
-  PORT,
-  DB_NAME,
-  DB_USER,
-  DB_HOST,
-  DB_PASSWORD,
-  PUSHPIN_PUBLISH
-} = process.env
+const ENV_PREFIX = setEnvPrefix()
+
+const getValueFromEnv = key => process.env[`${ENV_PREFIX}${key}`]
 
 const config = {
   app: {
-    port: PORT
+    port: getValueFromEnv('PORT')
   },
   pushpin: {
-    publishUrl: PUSHPIN_PUBLISH
+    publishUrl: getValueFromEnv('PUSHPIN_PUBLISH')
   },
   db: {
-    database: DB_NAME,
-    user: DB_USER,
-    password: DB_PASSWORD,
-    host: DB_HOST,
+    database: getValueFromEnv('DB_NAME'),
+    user: getValueFromEnv('DB_USER'),
+    password: getValueFromEnv('DB_PASSWORD'),
+    host: getValueFromEnv('DB_HOST'),
     dialect: 'mysql'
   }
 }
