@@ -42,7 +42,9 @@ const {
 userModel(sequelizeMock)
 
 const {
+  CODES,
   MESSAGES,
+  USER_TYPE,
   UNIQUE_CODE,
   MAX_LENGTH_CODE,
   MIN_LENGTH_CODE,
@@ -83,7 +85,7 @@ describe('validateUser', () => {
           .to.equal(`${MESSAGES[MISSING_PARAMETER_CODE]}: password`)
 
         expect(code)
-          .to.equal(MISSING_PARAMETER_CODE)
+          .to.equal(CODES[USER_TYPE][MISSING_PARAMETER_CODE])
       }
     })
   })
@@ -105,7 +107,7 @@ describe('validateUser', () => {
           .to.equal(`${MESSAGES[INVALID_PARAMETER_CODE]}: username: ${MESSAGES[WHITE_SPACES_CODE]}`)
 
         expect(code)
-          .to.equal(INVALID_PARAMETER_CODE)
+          .to.equal(CODES[USER_TYPE][INVALID_PARAMETER_CODE])
       }
     })
 
@@ -125,7 +127,7 @@ describe('validateUser', () => {
           .to.equal(`${MESSAGES[INVALID_PARAMETER_CODE]}: username: ${MESSAGES[MAX_LENGTH_CODE]} ${USERNAME_MAX_LENGTH}`)
 
         expect(code)
-          .to.equal(INVALID_PARAMETER_CODE)
+          .to.equal(CODES[USER_TYPE][INVALID_PARAMETER_CODE])
       }
     })
 
@@ -144,7 +146,7 @@ describe('validateUser', () => {
           .to.equal(`${MESSAGES[INVALID_PARAMETER_CODE]}: username: ${MESSAGES[UNIQUE_CODE]}`)
 
         expect(code)
-          .to.equal(INVALID_PARAMETER_CODE)
+          .to.equal(CODES[USER_TYPE][INVALID_PARAMETER_CODE])
       }
     })
   })
@@ -166,7 +168,7 @@ describe('validateUser', () => {
           .to.equal(`${MESSAGES[INVALID_PARAMETER_CODE]}: email`)
 
         expect(code)
-          .to.equal(INVALID_PARAMETER_CODE)
+          .to.equal(CODES[USER_TYPE][INVALID_PARAMETER_CODE])
       }
     })
 
@@ -186,7 +188,7 @@ describe('validateUser', () => {
           .to.equal(`${MESSAGES[INVALID_PARAMETER_CODE]}: email: ${MESSAGES[MAX_LENGTH_CODE]} ${EMAIL_MAX_LENGTH}`)
 
         expect(code)
-          .to.equal(INVALID_PARAMETER_CODE)
+          .to.equal(CODES[USER_TYPE][INVALID_PARAMETER_CODE])
       }
     })
 
@@ -205,7 +207,7 @@ describe('validateUser', () => {
           .to.equal(`${MESSAGES[INVALID_PARAMETER_CODE]}: email: ${MESSAGES[UNIQUE_CODE]}`)
 
         expect(code)
-          .to.equal(INVALID_PARAMETER_CODE)
+          .to.equal(CODES[USER_TYPE][INVALID_PARAMETER_CODE])
       }
     })
   })
@@ -227,7 +229,7 @@ describe('validateUser', () => {
           .to.equal(`${MESSAGES[INVALID_PARAMETER_CODE]}: password: ${MESSAGES[MAX_LENGTH_CODE]} ${PASSWORD_MAX_LENGTH}`)
 
         expect(code)
-          .to.equal(INVALID_PARAMETER_CODE)
+          .to.equal(CODES[USER_TYPE][INVALID_PARAMETER_CODE])
       }
     })
 
@@ -247,7 +249,7 @@ describe('validateUser', () => {
           .to.equal(`${MESSAGES[INVALID_PARAMETER_CODE]}: password: ${MESSAGES[MIN_LENGTH_CODE]} ${PASSWORD_MIN_LENGTH}`)
 
         expect(code)
-          .to.equal(INVALID_PARAMETER_CODE)
+          .to.equal(CODES[USER_TYPE][INVALID_PARAMETER_CODE])
       }
     })
 
@@ -267,7 +269,7 @@ describe('validateUser', () => {
           .to.equal(`${MESSAGES[INVALID_PARAMETER_CODE]}: password: ${MESSAGES[NOT_CONTAIN_NUMBERS]}, ${MESSAGES[NOT_CONTAIN_SPECIAL_CHARACTER]}`)
 
         expect(code)
-          .to.equal(INVALID_PARAMETER_CODE)
+          .to.equal(CODES[USER_TYPE][INVALID_PARAMETER_CODE])
       }
     })
 
@@ -287,7 +289,7 @@ describe('validateUser', () => {
           .to.equal(`${MESSAGES[INVALID_PARAMETER_CODE]}: password: ${MESSAGES[NOT_CONTAIN_LETTERS]}, ${MESSAGES[NOT_CONTAIN_SPECIAL_CHARACTER]}`)
 
         expect(code)
-          .to.equal(INVALID_PARAMETER_CODE)
+          .to.equal(CODES[USER_TYPE][INVALID_PARAMETER_CODE])
       }
     })
 
