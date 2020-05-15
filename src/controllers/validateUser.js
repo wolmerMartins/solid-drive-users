@@ -4,10 +4,13 @@ const model = require('../models/User')
 const UserError = require('../UserError')
 const validationErrorSchema = require('./validationErrorSchema')
 const {
+  USER_TYPE,
+  AT_SYMBOL,
   UNIQUE_CODE,
   EMAIL_FIELD,
   WHITE_SPACES,
   EMAIL_PATTERN,
+  AT_SYMBOL_CODE,
   USERNAME_FIELD,
   PASSWORD_FIELD,
   MAX_LENGTH_CODE,
@@ -33,7 +36,7 @@ const validationInvalidParameterError = (
   field,
   messageCode,
   required
-) => validationErrorSchema(INVALID_PARAMETER_CODE, field, messageCode, required);
+) => validationErrorSchema(USER_TYPE, INVALID_PARAMETER_CODE, field, messageCode, required);
 
 const validateIfIsUnique = async (where, field) => {
   const user = await model.findUser(where)
@@ -106,6 +109,17 @@ const validateEmail = async ({ email }) => {
   await validateIfIsUnique({ email }, EMAIL_FIELD)
 }
 
+const validateIfHaveAtSymbol = username => {
+  if (username.includes(AT_SYMBOL)) {
+    const {
+      code,
+      message
+    } = validationInvalidParameterError(USERNAME_FIELD, AT_SYMBOL_CODE)
+
+    throw new UserError(message, code)
+  }
+}
+
 const validateIfHaveNoSpaces = username => {
   if (WHITE_SPACES.test(username)) {
     const {
@@ -119,6 +133,7 @@ const validateIfHaveNoSpaces = username => {
 
 const validateUsername = async ({ username }) => {
   validateIfHaveNoSpaces(username)
+  validateIfHaveAtSymbol(username)
   validateMaxLength(username, USERNAME_MAX_LENGTH, USERNAME_FIELD)
   await validateIfIsUnique({ username }, USERNAME_FIELD)
 }
@@ -128,7 +143,7 @@ const validateUserRequiredFields = user => {
     .filter(required => !Object.keys(user).includes(required))
 
   if (difference.length) {
-    const { code, message } = validationErrorSchema(MISSING_PARAMETER_CODE, difference)
+    const { code, message } = validationErrorSchema(USER_TYPE, MISSING_PARAMETER_CODE, difference)
     
     throw new UserError(message, code)
   }

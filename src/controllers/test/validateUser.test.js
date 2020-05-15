@@ -9,6 +9,7 @@ const dbMock = new SequelizeMock()
 let user
 const username = 'test'
 const whiteSpaceUsername = 'test mock'
+const withAtUsername = 'test@mock'
 const maxLengthUsername = 'testtesttesttesttesttesttesttest'
 const email = 'test@test.com'
 const invalidEmail = 'test@test'
@@ -46,6 +47,7 @@ const {
   MESSAGES,
   USER_TYPE,
   UNIQUE_CODE,
+  AT_SYMBOL_CODE,
   MAX_LENGTH_CODE,
   MIN_LENGTH_CODE,
   EMAIL_MAX_LENGTH,
@@ -111,7 +113,27 @@ describe('validateUser', () => {
       }
     })
 
-    it('Should validate the username and throws and max length error', async () => {
+    it('Should validate the username and throws a with at symbol error', async () => {
+      try {
+        await validateUsername({
+          ...user,
+          username: withAtUsername
+        })
+      } catch(err) {
+        const { statusCode, message, code } = err
+
+        expect(statusCode)
+          .to.equal(422)
+
+        expect(message)
+          .to.equal(`${MESSAGES[INVALID_PARAMETER_CODE]}: username: ${MESSAGES[AT_SYMBOL_CODE]}`)
+
+        expect(code)
+          .to.equal(CODES[USER_TYPE][INVALID_PARAMETER_CODE])
+      }
+    })
+
+    it('Should validate the username and throws an max length error', async () => {
       try {
         await validateUsername({
           ...user,
