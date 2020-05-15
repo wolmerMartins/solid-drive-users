@@ -1,6 +1,14 @@
 'use strict'
 
+const TEST = 'test'
+const PRODUCTION = 'production'
+const DEVELOPMENT = 'development'
+
+const USER_TYPE = 'USER'
+const LOGIN_TYPE = 'LOGIN'
+
 const EMAIL_FIELD = 'email'
+const LOGIN_FIELD = 'login'
 const USERNAME_FIELD = 'username'
 const PASSWORD_FIELD = 'password'
 
@@ -14,9 +22,12 @@ const NUMBERS_PATTERN = /[0-9]+/
 const LETTERS_PATTERN = /[a-zA-Z]+/
 const SPECIAL_CHARACTER_PATTERN = /[\W]+/
 const PASSWORD_PATTERN = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*\W)[a-zA-Z0-9-_\W]+$/
+const AT_SYMBOL = '@'
 
-const MISSING_PARAMETER_CODE = 'user0'
-const INVALID_PARAMETER_CODE = 'user1'
+const MISSING_PARAMETER_CODE = 'missingParameter'
+const INVALID_PARAMETER_CODE = 'invalidParameter'
+const NOT_FOUND_CODE = 'notFound'
+const AUTH_FAILED_CODE = 'authFailed'
 
 const WHITE_SPACES_CODE = 'whiteSpaces'
 const MAX_LENGTH_CODE = 'maxLength'
@@ -25,22 +36,50 @@ const UNIQUE_CODE = 'unique'
 const NOT_CONTAIN_LETTERS = 'letters'
 const NOT_CONTAIN_NUMBERS = 'numbers'
 const NOT_CONTAIN_SPECIAL_CHARACTER = 'specialCharacter'
+const AT_SYMBOL_CODE = 'atSymbol'
 
 const USER_REQUIRED_PARAMETERS = [EMAIL_FIELD, USERNAME_FIELD, PASSWORD_FIELD]
+const LOGIN_REQUIRED_PARAMETERS = [LOGIN_FIELD, PASSWORD_FIELD]
 
+const STATUS_CODES = {
+  [NOT_FOUND_CODE]: 404,
+  [AUTH_FAILED_CODE]: 401
+}
+const CODES = {
+  [USER_TYPE]: {
+    [MISSING_PARAMETER_CODE]: 'user0',
+    [INVALID_PARAMETER_CODE]: 'user1'
+  },
+  [LOGIN_TYPE]: {
+    [MISSING_PARAMETER_CODE]: 'login0',
+    [NOT_FOUND_CODE]: 'login1',
+    [AUTH_FAILED_CODE]: 'login2'
+  }
+}
 const MESSAGES = {
   [MISSING_PARAMETER_CODE]: 'Missing required parameter',
   [INVALID_PARAMETER_CODE]: 'Invalid parameter',
+  [NOT_FOUND_CODE]: 'Not found',
   [WHITE_SPACES_CODE]: 'Cannot contain white spaces',
   [MAX_LENGTH_CODE]: 'Exceed maximum allowed length',
   [MIN_LENGTH_CODE]: 'Have fewer characters than the minimum required',
   [UNIQUE_CODE]: 'Must be unique',
   [NOT_CONTAIN_LETTERS]: 'Must contain letters',
   [NOT_CONTAIN_NUMBERS]: 'Must contain numbers',
-  [NOT_CONTAIN_SPECIAL_CHARACTER]: 'Must contain special character'
+  [NOT_CONTAIN_SPECIAL_CHARACTER]: 'Must contain special character',
+  [AT_SYMBOL_CODE]: 'Cannot contain @',
+  [AUTH_FAILED_CODE]: 'Authentication failed: Username or password doesn\'t match'
 }
 
+exports.TEST = TEST
+exports.PRODUCTION = PRODUCTION
+exports.DEVELOPMENT = DEVELOPMENT
+
+exports.USER_TYPE = USER_TYPE
+exports.LOGIN_TYPE = LOGIN_TYPE
+
 exports.EMAIL_FIELD = EMAIL_FIELD
+exports.LOGIN_FIELD = LOGIN_FIELD
 exports.USERNAME_FIELD = USERNAME_FIELD
 exports.PASSWORD_FIELD = PASSWORD_FIELD
 
@@ -54,9 +93,12 @@ exports.LETTERS_PATTERN = LETTERS_PATTERN
 exports.NUMBERS_PATTERN = NUMBERS_PATTERN
 exports.SPECIAL_CHARACTER_PATTERN = SPECIAL_CHARACTER_PATTERN
 exports.PASSWORD_PATTERN = PASSWORD_PATTERN
+exports.AT_SYMBOL = AT_SYMBOL
+exports.AUTH_FAILED_CODE = AUTH_FAILED_CODE
 
 exports.INVALID_PARAMETER_CODE = INVALID_PARAMETER_CODE
 exports.MISSING_PARAMETER_CODE = MISSING_PARAMETER_CODE
+exports.NOT_FOUND_CODE = NOT_FOUND_CODE
 
 exports.WHITE_SPACES_CODE = WHITE_SPACES_CODE
 exports.MAX_LENGTH_CODE = MAX_LENGTH_CODE
@@ -65,7 +107,11 @@ exports.UNIQUE_CODE = UNIQUE_CODE
 exports.NOT_CONTAIN_LETTERS = NOT_CONTAIN_LETTERS
 exports.NOT_CONTAIN_NUMBERS = NOT_CONTAIN_NUMBERS
 exports.NOT_CONTAIN_SPECIAL_CHARACTER = NOT_CONTAIN_SPECIAL_CHARACTER
+exports.AT_SYMBOL_CODE = AT_SYMBOL_CODE
 
 exports.USER_REQUIRED_PARAMETERS = USER_REQUIRED_PARAMETERS
+exports.LOGIN_REQUIRED_PARAMETERS = LOGIN_REQUIRED_PARAMETERS
 
+exports.STATUS_CODES = STATUS_CODES
+exports.CODES = CODES
 exports.MESSAGES = MESSAGES
