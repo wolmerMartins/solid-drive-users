@@ -19,14 +19,14 @@ const sequelizeMock = {
   define: () => UserMock
 }
 
-userModel(sequelizeMock)
-
 describe('User', () => {
   const newUser = {
     username: 'mocker',
     email: 'mocker@test.com',
     password: '1234mocker%^'
   }
+
+  before(() => userModel(sequelizeMock))
 
   describe('createUser', () => {
     it('Should create a new User on DB and return his data with an extra id, createdAt, and updatedAt timestamps', async () => {

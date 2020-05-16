@@ -40,8 +40,6 @@ const {
   validatePassword
 } = require('../validateUser')
 
-userModel(sequelizeMock)
-
 const {
   CODES,
   MESSAGES,
@@ -63,6 +61,8 @@ const {
 } = require('../../constants')
 
 describe('validateUser', () => {
+  before(() => userModel(sequelizeMock))
+
   beforeEach(() => {
     user = { email, username, password }
   })
