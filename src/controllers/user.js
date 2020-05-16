@@ -32,6 +32,12 @@ const userController = {
         channel
       })
     }
+  },
+  auth: (user, channel) => {
+    pushpin.publish.response({
+      data: { user, success: true },
+      channel
+    })
   }
 }
 
