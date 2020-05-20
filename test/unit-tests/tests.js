@@ -1,6 +1,7 @@
 'use strict'
 
 describe('controllers', () => {
+  require('../../src/controllers/test/jwt.test')
   require('../../src/controllers/test/utils.test')
   require('../../src/controllers/test/pushpin.test')
   require('../../src/controllers/test/password.test')
@@ -11,4 +12,5 @@ describe('controllers', () => {
 
 describe('models', () => {
   require('../../src/models/test/User.test')
+  require('../../src/models/test/Session.test')
 })
