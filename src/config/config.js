@@ -1,16 +1,19 @@
 'use strict'
 
-const setEnvPrefix = () => {
+const testConfig = require('./testConfig')
+const {
+  TEST,
+  ENV_PREFIX
+} = require('../constants')
+
+const getValueFromEnv = key => {
   const { env: { NODE_ENV } } = process
-  
-  if (NODE_ENV === 'production') return 'PROD_'
-  if (NODE_ENV === 'development') return 'DEV_'
-  return 'TST_'
+  const prefix = ENV_PREFIX[NODE_ENV]
+
+  if (NODE_ENV === TEST) return testConfig[`${prefix}${key}`]
+
+  return process.env[`${prefix}${key}`]
 }
-
-const ENV_PREFIX = setEnvPrefix()
-
-const getValueFromEnv = key => process.env[`${ENV_PREFIX}${key}`]
 
 const config = {
   app: {
@@ -25,6 +28,14 @@ const config = {
     password: getValueFromEnv('DB_PASSWORD'),
     host: getValueFromEnv('DB_HOST'),
     dialect: 'mysql'
+  },
+  redis: {
+    db: getValueFromEnv('REDIS_DB'),
+    host: getValueFromEnv('REDIS_HOST'),
+    port: getValueFromEnv('REDIS_PORT')
+  },
+  jwt: {
+    secret: getValueFromEnv('JWT_SECRET')
   }
 }
 
