@@ -13,6 +13,10 @@ services:
       DEV_DB_PASSWORD: solid
       DEV_DB_NAME: solid_drive
       DEV_PUSHPIN_PUBLISH: http://pushpin:5561/publish
+      DEV_REDIS_DB: 0
+      DEV_REDIS_PORT: 6379
+      DEV_REDIS_HOST: redis
+      DEV_JWT_SECRET: cd9fb2add38b1793efce43e9d00f9eb0d3698b6e231765d5ec7212bcb3573bbd07ce1625aa7280371fe65bc5701ed36ce0af6d26eda59d6169e39310b5fdab4f
     volumes:
       - .:/app
     depends_on:
@@ -36,3 +40,7 @@ services:
       - /mysql_data:/var/lib/mysql
     ports:
       - 3306:3306
+  redis:
+    image: redis:6.0.2
+    ports:
+      - 6379:6379
