@@ -5,6 +5,7 @@ const {
   MESSAGES,
   NOT_FOUND_CODE,
   AUTH_FAILED_CODE,
+  LOGIN_FAILED_CODE,
   MISSING_PARAMETER_CODE,
   INVALID_PARAMETER_CODE
 } = require('../constants')
@@ -17,6 +18,12 @@ const setValues = values => {
 const setMessage = (code, values) => {
   if (values && values.length) return `${MESSAGES[code]}: ${setValues(values)}`
   return MESSAGES[code]
+}
+
+const setAuthFailedMessage = (code, values, messageCode) => {
+  if (!messageCode) return setMessage(code, values)
+
+  return setMessage(code, `${MESSAGES[messageCode]}${values ? `: ${setValues(values)}` : ''}`)
 }
 
 const setNotFoundMessage = (code, values) => {
@@ -64,9 +71,14 @@ const validationErrorSchema = (type, code, values, messageCode, required) => {
         message: setNotFoundMessage(code, values),
         code: CODES[type][code]
       }
-    case AUTH_FAILED_CODE:
+    case LOGIN_FAILED_CODE:
       return {
         message: setMessage(code),
+        code: CODES[type][code]
+      }
+    case AUTH_FAILED_CODE:
+      return {
+        message: setAuthFailedMessage(code, values, messageCode),
         code: CODES[type][code]
       }
   }

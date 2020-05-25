@@ -12,7 +12,7 @@ const {
   LOGIN_TYPE,
   NOT_FOUND_CODE,
   MAX_LENGTH_CODE,
-  AUTH_FAILED_CODE,
+  LOGIN_FAILED_CODE,
   NOT_CONTAIN_LETTERS,
   NOT_CONTAIN_NUMBERS,
   MISSING_PARAMETER_CODE,
@@ -114,13 +114,13 @@ describe('validationErrorSchema', () => {
 
   describe('auth failed', () => {
     it('Should return an AUTH FAILED error message', () => {
-      const { code, message } = validationErrorSchema(LOGIN_TYPE, AUTH_FAILED_CODE)
+      const { code, message } = validationErrorSchema(LOGIN_TYPE, LOGIN_FAILED_CODE)
 
       expect(code)
-        .to.equal(CODES[LOGIN_TYPE][AUTH_FAILED_CODE])
+        .to.equal(CODES[LOGIN_TYPE][LOGIN_FAILED_CODE])
 
       expect(message)
-        .to.equal(`${MESSAGES[AUTH_FAILED_CODE]}`)
+        .to.equal(`${MESSAGES[LOGIN_FAILED_CODE]}`)
     })
   })
 })
