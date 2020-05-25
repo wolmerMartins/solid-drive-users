@@ -65,6 +65,7 @@ router.post('/auth', async (req, res) => {
 
     const { login } = body
 
+    res.cookie('user', user.username)
     const channel = signToPushpin({ res, channelName: login })
 
     userController.auth(user, channel)
