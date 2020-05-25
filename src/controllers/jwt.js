@@ -6,12 +6,19 @@ const config = require('../config/config')
 
 module.exports = {
   generateToken: payload => new Promise((resolve, reject) => {
-    jwt.sign(payload, config.jwt.secret, {
-      expiresIn: '12h'
-    }, (err, encoded) => {
-      if (err) reject(err)
-
-      resolve(encoded)
-    })
+    try {
+      const token = jwt.sign(payload, config.jwt.secret, { expiresIn: '12h' })
+      resolve(token)
+    } catch(err) {
+      reject(err)
+    }
+  }),
+  verifyToken: token => new Promise((resolve, reject) => {
+    try {
+      const decoded = jwt.verify(token, config.jwt.secret)
+      resolve(decoded)
+    } catch(err) {
+      reject(err)
+    }
   })
 }
