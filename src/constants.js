@@ -4,8 +4,12 @@ const TEST = 'test'
 const PRODUCTION = 'production'
 const DEVELOPMENT = 'development'
 
+const SC_404 = 404
+const SC_401 = 401
+
 const USER_TYPE = 'USER'
 const LOGIN_TYPE = 'LOGIN'
+const AUTH_TYPE = 'AUTH'
 
 const EMAIL_FIELD = 'email'
 const LOGIN_FIELD = 'login'
@@ -27,6 +31,7 @@ const AT_SYMBOL = '@'
 const MISSING_PARAMETER_CODE = 'missingParameter'
 const INVALID_PARAMETER_CODE = 'invalidParameter'
 const NOT_FOUND_CODE = 'notFound'
+const LOGIN_FAILED_CODE = 'loginFailed'
 const AUTH_FAILED_CODE = 'authFailed'
 
 const WHITE_SPACES_CODE = 'whiteSpaces'
@@ -37,6 +42,8 @@ const NOT_CONTAIN_LETTERS = 'letters'
 const NOT_CONTAIN_NUMBERS = 'numbers'
 const NOT_CONTAIN_SPECIAL_CHARACTER = 'specialCharacter'
 const AT_SYMBOL_CODE = 'atSymbol'
+const UNLOGGED_IN_CODE = 'unloggedIn'
+const AUTH_TOKEN_CODE = 'authToken'
 
 const USER_REQUIRED_PARAMETERS = [EMAIL_FIELD, USERNAME_FIELD, PASSWORD_FIELD]
 const LOGIN_REQUIRED_PARAMETERS = [LOGIN_FIELD, PASSWORD_FIELD]
@@ -48,8 +55,9 @@ const ENV_PREFIX = {
 }
 
 const STATUS_CODES = {
-  [NOT_FOUND_CODE]: 404,
-  [AUTH_FAILED_CODE]: 401
+  [NOT_FOUND_CODE]: SC_404,
+  [LOGIN_FAILED_CODE]: SC_401,
+  [AUTH_FAILED_CODE]: SC_401
 }
 const CODES = {
   [USER_TYPE]: {
@@ -59,7 +67,11 @@ const CODES = {
   [LOGIN_TYPE]: {
     [MISSING_PARAMETER_CODE]: 'login0',
     [NOT_FOUND_CODE]: 'login1',
-    [AUTH_FAILED_CODE]: 'login2'
+    [LOGIN_FAILED_CODE]: 'login2'
+  },
+  [AUTH_TYPE]: {
+    [AUTH_FAILED_CODE]: 'auth0',
+    [UNLOGGED_IN_CODE]: 'auth1'
   }
 }
 const MESSAGES = {
@@ -74,7 +86,10 @@ const MESSAGES = {
   [NOT_CONTAIN_NUMBERS]: 'Must contain numbers',
   [NOT_CONTAIN_SPECIAL_CHARACTER]: 'Must contain special character',
   [AT_SYMBOL_CODE]: 'Cannot contain @',
-  [AUTH_FAILED_CODE]: 'Authentication failed: Username or password doesn\'t match'
+  [LOGIN_FAILED_CODE]: 'Authentication failed: Username or password doesn\'t match',
+  [AUTH_FAILED_CODE]: 'Unauthorized request',
+  [UNLOGGED_IN_CODE]: 'User not logged in',
+  [AUTH_TOKEN_CODE]: 'Auth token'
 }
 
 exports.TEST = TEST
@@ -83,6 +98,7 @@ exports.DEVELOPMENT = DEVELOPMENT
 
 exports.USER_TYPE = USER_TYPE
 exports.LOGIN_TYPE = LOGIN_TYPE
+exports.AUTH_TYPE = AUTH_TYPE
 
 exports.EMAIL_FIELD = EMAIL_FIELD
 exports.LOGIN_FIELD = LOGIN_FIELD
@@ -100,11 +116,14 @@ exports.NUMBERS_PATTERN = NUMBERS_PATTERN
 exports.SPECIAL_CHARACTER_PATTERN = SPECIAL_CHARACTER_PATTERN
 exports.PASSWORD_PATTERN = PASSWORD_PATTERN
 exports.AT_SYMBOL = AT_SYMBOL
-exports.AUTH_FAILED_CODE = AUTH_FAILED_CODE
+exports.UNLOGGED_IN_CODE = UNLOGGED_IN_CODE
+exports.AUTH_TOKEN_CODE = AUTH_TOKEN_CODE
 
 exports.INVALID_PARAMETER_CODE = INVALID_PARAMETER_CODE
 exports.MISSING_PARAMETER_CODE = MISSING_PARAMETER_CODE
 exports.NOT_FOUND_CODE = NOT_FOUND_CODE
+exports.LOGIN_FAILED_CODE = LOGIN_FAILED_CODE
+exports.AUTH_FAILED_CODE = AUTH_FAILED_CODE
 
 exports.WHITE_SPACES_CODE = WHITE_SPACES_CODE
 exports.MAX_LENGTH_CODE = MAX_LENGTH_CODE
