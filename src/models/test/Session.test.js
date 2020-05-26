@@ -8,6 +8,9 @@ const session = require('../Session')
 const expect = chai.expect
 
 describe('Session', () => {
+  const username = 'test'
+  const token = 'lakjsdlkajsoihdalskjdasjd'
+
   before(() => {
     const client = redisMock.createClient()
     session(client)
@@ -15,10 +18,19 @@ describe('Session', () => {
 
   describe('initUserSession', () => {
     it('Should initialize the user session', async () => {
-      const result = await session.initUserSession('test', 'lakjsdlkajsoihdalskjdasjd')
+      const result = await session.initUserSession(username, token)
 
       expect(result)
         .to.be.ok
+    })
+  })
+
+  describe('getUserSessionToken', () => {
+    it('Should return the user auth token', async () => {
+      const result = await session.getUserSessionToken(username)
+
+      expect(result)
+        .to.be.equal(token)
     })
   })
 })
