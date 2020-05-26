@@ -7,6 +7,7 @@ describe('controllers', () => {
   require('../../src/controllers/test/password.test')
   require('../../src/controllers/test/validateUser.test')
   require('../../src/controllers/test/validateLogin.test')
+  require('../../src/controllers/test/validateAuth.test')
   require('../../src/controllers/test/validationErrorSchema.test')
 })
 
