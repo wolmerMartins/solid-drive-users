@@ -9,7 +9,7 @@ const {
   LOGIN_TYPE,
   STATUS_CODES,
   NOT_FOUND_CODE,
-  AUTH_FAILED_CODE,
+  LOGIN_FAILED_CODE,
   MISSING_PARAMETER_CODE,
   LOGIN_REQUIRED_PARAMETERS
 } = require('../constants')
@@ -19,9 +19,9 @@ const checkIfPasswordMatch = ({ body, user }) => {
     const {
       code,
       message
-    } = validationErrorSchema(LOGIN_TYPE, AUTH_FAILED_CODE)
+    } = validationErrorSchema(LOGIN_TYPE, LOGIN_FAILED_CODE)
 
-    throw new UserError(message, code, STATUS_CODES[AUTH_FAILED_CODE])
+    throw new UserError(message, code, STATUS_CODES[LOGIN_FAILED_CODE])
   }
 }
 

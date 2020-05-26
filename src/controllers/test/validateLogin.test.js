@@ -15,7 +15,7 @@ const {
   MESSAGES,
   LOGIN_TYPE,
   NOT_FOUND_CODE,
-  AUTH_FAILED_CODE,
+  LOGIN_FAILED_CODE,
   MISSING_PARAMETER_CODE
 } = require('../../constants')
 
@@ -157,10 +157,10 @@ describe('validateLogin', () => {
           .to.equal(401)
 
         expect(message)
-          .to.equal(MESSAGES[AUTH_FAILED_CODE])
+          .to.equal(MESSAGES[LOGIN_FAILED_CODE])
 
         expect(code)
-          .to.equal(CODES[LOGIN_TYPE][AUTH_FAILED_CODE])
+          .to.equal(CODES[LOGIN_TYPE][LOGIN_FAILED_CODE])
       }
     })
   })
