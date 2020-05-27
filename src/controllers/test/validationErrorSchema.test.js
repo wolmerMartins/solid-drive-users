@@ -110,6 +110,16 @@ describe('validationErrorSchema', () => {
       expect(message)
         .to.equal(`${MESSAGES[NOT_FOUND_CODE]}: User: email: test@test.com`)
     })
+
+    it('Should return a NOT FOUND error message with id: 2', () => {
+      const { code, message } = validationErrorSchema(LOGIN_TYPE, NOT_FOUND_CODE, { id: 2 })
+
+      expect(code)
+        .to.equal(CODES[LOGIN_TYPE][NOT_FOUND_CODE])
+
+      expect(message)
+        .to.equal(`${MESSAGES[NOT_FOUND_CODE]}: User: id: 2`)
+    })
   })
 
   describe('auth failed', () => {
