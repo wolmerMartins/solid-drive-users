@@ -90,6 +90,8 @@ const validateIfIsValidPassword = password => {
 }
 
 const validatePassword = ({ password }) => {
+  if (!password) return
+
   validateMaxLength(password, PASSWORD_MAX_LENGTH, PASSWORD_FIELD)
   validateMinLength(password, PASSWORD_MIN_LENGTH, PASSWORD_FIELD)
   validateIfIsValidPassword(password)
@@ -104,6 +106,8 @@ const validateIfIsValidEmail = email => {
 }
 
 const validateEmail = async ({ email }) => {
+  if (!email) return
+
   validateIfIsValidEmail(email)
   validateMaxLength(email, EMAIL_MAX_LENGTH, EMAIL_FIELD)
   await validateIfIsUnique({ email }, EMAIL_FIELD)
@@ -132,6 +136,8 @@ const validateIfHaveNoSpaces = username => {
 }
 
 const validateUsername = async ({ username }) => {
+  if (!username) return
+
   validateIfHaveNoSpaces(username)
   validateIfHaveAtSymbol(username)
   validateMaxLength(username, USERNAME_MAX_LENGTH, USERNAME_FIELD)
