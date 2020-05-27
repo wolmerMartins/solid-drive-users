@@ -35,6 +35,8 @@ const validateAuthToken = async headers => {
     const token = await Session.getUserSessionToken(username)
     const decoded = await verifyToken(token)
     verifyUser(username, decoded)
+
+    return decoded
   } catch(err) {
     const { message, code } = validationErrorSchema(AUTH_TYPE, AUTH_FAILED_CODE, err.message, AUTH_TOKEN_CODE)
 
