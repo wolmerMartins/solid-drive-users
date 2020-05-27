@@ -27,8 +27,12 @@ const setAuthFailedMessage = (code, values, messageCode) => {
 }
 
 const setNotFoundMessage = (code, values) => {
-  const { username, email } = values
-  const message = `User: ${username ? `username: ${username}` : `email: ${email}`}`
+  const { username, email, id } = values
+  const message = `User: ${username
+    ? `username: ${username}`
+    : email
+      ? `email: ${email}`
+      : `id: ${id}`}`
 
   return setMessage(code, message)
 }
