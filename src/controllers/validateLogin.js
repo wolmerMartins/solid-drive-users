@@ -3,7 +3,7 @@
 const model = require('../models/User')
 const UserError = require('../UserError')
 const { verifyPassword } = require('./password')
-const { getUserKeyFromLogin } = require('./utils')
+const { getUserKey } = require('./utils')
 const validationErrorSchema = require('./validationErrorSchema')
 const {
   LOGIN_TYPE,
@@ -26,7 +26,7 @@ const checkIfPasswordMatch = ({ body, user }) => {
 }
 
 const checkIfUserExists = async body => {
-  const where = getUserKeyFromLogin(body)
+  const where = getUserKey(body)
   const user = await model.findUser(where)
 
   if (!user) {
