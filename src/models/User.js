@@ -36,7 +36,6 @@ const setup = async (sequelize) => {
 
   module.exports.findUser = where => {
     return User.findOne({ where }, { raw: true })
-    
   }
 }
 
