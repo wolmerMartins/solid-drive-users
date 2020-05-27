@@ -9,7 +9,8 @@ const auth = async (req, res, next) => {
   const { headers } = req
 
   try {
-    await validateAuthToken(headers)
+    const user = await validateAuthToken(headers)
+    res.locals.channel = user.channel
 
     next()
   } catch(error) {
