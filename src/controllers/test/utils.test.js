@@ -5,19 +5,20 @@ const expect = chai.expect
 
 const {
   getCookies,
-  getUserKeyFromLogin
+  getUserKey
 } = require('../utils')
 
 describe('utils', () => {
+  const id = 2
   const email = 'testmock@test.com'
   const username = 'testmock'
   let headers
 
   beforeEach(() => headers = {})
 
-  describe('getUserKeyFromLogin', () => {
+  describe('getUserKey', () => {
     it('Should get the user key as an email from login', () => {
-      const userKey = getUserKeyFromLogin({ login: email })
+      const userKey = getUserKey({ login: email })
 
       expect(userKey)
         .to.be.a('object')
@@ -30,7 +31,7 @@ describe('utils', () => {
     })
 
     it('Should get the user key as an username from login', () => {
-      const userKey = getUserKeyFromLogin({ login: username })
+      const userKey = getUserKey({ login: username })
 
       expect(userKey)
         .to.be.a('object')
@@ -40,6 +41,19 @@ describe('utils', () => {
 
       expect(userKey)
         .to.includes({ username })
+    })
+
+    it('Should get the user key as an id from body', () => {
+      const userKey = getUserKey({ id })
+
+      expect(userKey)
+        .to.be.a('object')
+
+      expect(userKey)
+        .to.have.key('id')
+
+      expect(userKey)
+        .to.includes({ id })
     })
   })
 

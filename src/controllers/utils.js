@@ -21,10 +21,11 @@ const getCookies = ({ cookie }) => {
   return cookiesObj
 }
 
-const getUserKeyFromLogin = ({ login }) => {
+const getUserKey = ({ id, login }) => {
+  if (!login) return { id }
   if (login.includes(AT_SYMBOL)) return { [EMAIL_FIELD]: login }
   return { [USERNAME_FIELD]: login }
 }
 
-exports.getUserKeyFromLogin = getUserKeyFromLogin
+exports.getUserKey = getUserKey
 exports.getCookies = getCookies
