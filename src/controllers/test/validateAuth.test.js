@@ -91,11 +91,26 @@ describe('validateAuth', () => {
       }
     })
 
-    it('Should validate the auth and not return any error', async () => {
+    it('Should validate the auth, not return any error, and return the decoded values', async () => {
       headers = { cookie }
       Session.initUserSession(username, authToken)
 
-      await validateAuthToken(headers)
+      const decoded = await validateAuthToken(headers)
+
+      expect(decoded)
+        .to.have.all.keys('id', 'email', 'channel', 'username', 'iat')
+
+      expect(decoded)
+        .to.includes({ id: 6 })
+
+      expect(decoded)
+        .to.includes({ email: 'testmock@test.com' })
+
+      expect(decoded)
+        .to.includes({ channel: 'user:testmock' })
+
+      expect(decoded)
+        .to.includes({ username: 'testmock' })
     })
   })
 })
