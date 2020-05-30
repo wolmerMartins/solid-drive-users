@@ -6,6 +6,7 @@ const DEVELOPMENT = 'development'
 
 const SC_404 = 404
 const SC_401 = 401
+const SC_403 = 403
 
 const USER_TYPE = 'USER'
 const LOGIN_TYPE = 'LOGIN'
@@ -33,6 +34,7 @@ const INVALID_PARAMETER_CODE = 'invalidParameter'
 const NOT_FOUND_CODE = 'notFound'
 const LOGIN_FAILED_CODE = 'loginFailed'
 const AUTH_FAILED_CODE = 'authFailed'
+const FORBIDDEN_CODE = 'forbidden'
 
 const WHITE_SPACES_CODE = 'whiteSpaces'
 const MAX_LENGTH_CODE = 'maxLength'
@@ -57,7 +59,8 @@ const ENV_PREFIX = {
 const STATUS_CODES = {
   [NOT_FOUND_CODE]: SC_404,
   [LOGIN_FAILED_CODE]: SC_401,
-  [AUTH_FAILED_CODE]: SC_401
+  [AUTH_FAILED_CODE]: SC_401,
+  [FORBIDDEN_CODE]: SC_403
 }
 const CODES = {
   [USER_TYPE]: {
@@ -71,7 +74,8 @@ const CODES = {
   },
   [AUTH_TYPE]: {
     [AUTH_FAILED_CODE]: 'auth0',
-    [UNLOGGED_IN_CODE]: 'auth1'
+    [UNLOGGED_IN_CODE]: 'auth1',
+    [FORBIDDEN_CODE]: 'auth2'
   }
 }
 const MESSAGES = {
@@ -89,7 +93,8 @@ const MESSAGES = {
   [LOGIN_FAILED_CODE]: 'Authentication failed: Username or password doesn\'t match',
   [AUTH_FAILED_CODE]: 'Unauthorized request',
   [UNLOGGED_IN_CODE]: 'User not logged in',
-  [AUTH_TOKEN_CODE]: 'Auth token'
+  [AUTH_TOKEN_CODE]: 'Auth token',
+  [FORBIDDEN_CODE]: 'Forbidden request'
 }
 
 exports.TEST = TEST
@@ -124,6 +129,7 @@ exports.MISSING_PARAMETER_CODE = MISSING_PARAMETER_CODE
 exports.NOT_FOUND_CODE = NOT_FOUND_CODE
 exports.LOGIN_FAILED_CODE = LOGIN_FAILED_CODE
 exports.AUTH_FAILED_CODE = AUTH_FAILED_CODE
+exports.FORBIDDEN_CODE = FORBIDDEN_CODE
 
 exports.WHITE_SPACES_CODE = WHITE_SPACES_CODE
 exports.MAX_LENGTH_CODE = MAX_LENGTH_CODE
