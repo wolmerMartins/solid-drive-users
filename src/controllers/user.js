@@ -5,11 +5,10 @@ const _ = require('lodash')
 const model = require('../models/User')
 const session = require('../models/Session')
 
-const controllerLogger = require('./logger')
 const pushpin = require('./pushpin')
-const { hashPassword } = require('./password')
 const { generateToken } = require('./jwt')
-const { checkIfUserExists } = require('./validateLogin')
+const controllerLogger = require('./logger')
+const { hashPassword } = require('./password')
 const {
   validateEmail,
   validateUsername,
@@ -65,7 +64,7 @@ const userController = {
       sendErrorResponse({ error, channel })
     }
   },
-  update: async ({ id, body, channel }) => {
+  update: async ({ user, body, channel }) => {
     if (_.isEmpty(body)) {
       pushpin.publish.response({
         data: { message: 'Cannot update user with an empty body' },
@@ -74,19 +73,32 @@ const userController = {
     }
 
     try {
-      const user = await checkIfUserExists({ id })
       await validateUsername(body)
       await validateEmail(body)
       validatePassword(body)
 
-      const newUser = await user.update(body)
+      const updatedUser = await user.update(body)
 
       pushpin.publish.response({
-        data: { id, newUser },
+        data: { updatedUser },
         channel
       })
     } catch(error) {
       logger.error({ error }, 'An error has occurred trying to update user')
+
+      sendErrorResponse({ error, channel })
+    }
+  },
+  delete: async ({ user, channel }) => {
+    try {
+      const deletedUser = await user.update({ isDisabled: true })
+
+      pushpin.publish.response({
+        data: { deletedUser },
+        channel
+      })
+    } catch(error) {
+      logger.error({ error }, 'An error has occurred trying to disable user')
 
       sendErrorResponse({ error, channel })
     }
