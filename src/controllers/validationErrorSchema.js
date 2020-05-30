@@ -4,6 +4,7 @@ const {
   CODES,
   MESSAGES,
   NOT_FOUND_CODE,
+  FORBIDDEN_CODE,
   AUTH_FAILED_CODE,
   LOGIN_FAILED_CODE,
   MISSING_PARAMETER_CODE,
@@ -83,6 +84,11 @@ const validationErrorSchema = (type, code, values, messageCode, required) => {
     case AUTH_FAILED_CODE:
       return {
         message: setAuthFailedMessage(code, values, messageCode),
+        code: CODES[type][code]
+      }
+    case FORBIDDEN_CODE:
+      return {
+        message: setMessage(code),
         code: CODES[type][code]
       }
   }

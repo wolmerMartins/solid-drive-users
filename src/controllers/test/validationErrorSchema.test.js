@@ -8,10 +8,14 @@ const validationErrorSchema = require('../validationErrorSchema')
 const {
   CODES,
   MESSAGES,
+  AUTH_TYPE,
   USER_TYPE,
   LOGIN_TYPE,
   NOT_FOUND_CODE,
+  FORBIDDEN_CODE,
+  AUTH_TOKEN_CODE,
   MAX_LENGTH_CODE,
+  AUTH_FAILED_CODE,
   LOGIN_FAILED_CODE,
   NOT_CONTAIN_LETTERS,
   NOT_CONTAIN_NUMBERS,
@@ -122,15 +126,49 @@ describe('validationErrorSchema', () => {
     })
   })
 
-  describe('auth failed', () => {
-    it('Should return an AUTH FAILED error message', () => {
+  describe('login failed', () => {
+    it('Should return an LOGIN FAILED error message', () => {
       const { code, message } = validationErrorSchema(LOGIN_TYPE, LOGIN_FAILED_CODE)
 
       expect(code)
         .to.equal(CODES[LOGIN_TYPE][LOGIN_FAILED_CODE])
 
       expect(message)
-        .to.equal(`${MESSAGES[LOGIN_FAILED_CODE]}`)
+        .to.equal(MESSAGES[LOGIN_FAILED_CODE])
+    })
+  })
+
+  describe('auth failed', () => {
+    it('Should return an AUTH FAILED error message', () => {
+      const { code, message } = validationErrorSchema(AUTH_TYPE, AUTH_FAILED_CODE)
+
+      expect(code)
+        .to.equal(CODES[AUTH_TYPE][AUTH_FAILED_CODE])
+
+      expect(message)
+        .to.equal(MESSAGES[AUTH_FAILED_CODE])
+    })
+
+    it('Should return an AUTH TOKEN auth failed error message', () => {
+      const { code, message } = validationErrorSchema(AUTH_TYPE, AUTH_FAILED_CODE, 'invalid token', AUTH_TOKEN_CODE)
+
+      expect(code)
+        .to.equal(CODES[AUTH_TYPE][AUTH_FAILED_CODE])
+
+      expect(message)
+        .to.equal(`${MESSAGES[AUTH_FAILED_CODE]}: ${MESSAGES[AUTH_TOKEN_CODE]}: invalid token`)
+    })
+  })
+
+  describe('forbidden access', () => {
+    it('Should return an FORBIDDEN REQUEST error message', () => {
+      const { code, message } = validationErrorSchema(AUTH_TYPE, FORBIDDEN_CODE)
+
+      expect(code)
+        .to.equal(CODES[AUTH_TYPE][FORBIDDEN_CODE])
+
+      expect(message)
+        .to.equal(MESSAGES[FORBIDDEN_CODE])
     })
   })
 })
