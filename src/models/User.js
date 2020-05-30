@@ -21,7 +21,12 @@ const setup = async (sequelize) => {
       unique: true
     },
     password: {
-      type: DataTypes.STRING(22),
+      type: DataTypes.STRING(113),
+      allowNull: false
+    },
+    isDisabled: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
       allowNull: false
     }
   }, {
