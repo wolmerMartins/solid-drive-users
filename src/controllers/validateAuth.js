@@ -8,10 +8,17 @@ const { verifyToken } = require('./jwt')
 const {
   AUTH_TYPE,
   STATUS_CODES,
+  FORBIDDEN_CODE,
   AUTH_TOKEN_CODE,
   AUTH_FAILED_CODE,
   UNLOGGED_IN_CODE
 } = require('../constants')
+
+const forbiddenAccess = () => {
+  const { message, code } = validationErrorSchema(AUTH_TYPE, FORBIDDEN_CODE)
+
+  throw new UserError(message, code, STATUS_CODES[FORBIDDEN_CODE])
+}
 
 const userNotLoggedIn = () => {
   const { message, code } = validationErrorSchema(AUTH_TYPE, AUTH_FAILED_CODE, null, UNLOGGED_IN_CODE)
@@ -19,9 +26,12 @@ const userNotLoggedIn = () => {
   throw new UserError(message, code, STATUS_CODES[AUTH_FAILED_CODE])
 }
 
-const verifyUser = (username, user) => {
-  if (username !== user.username) {
-    return userNotLoggedIn()
+const verifyUser = (channel, user) => {
+  const channelParts = channel.split(':')
+  const channelUser = channelParts[channelParts.length - 1]
+
+  if (channelUser !== user.username) {
+    return forbiddenAccess()
   }
 }
 
@@ -34,7 +44,6 @@ const validateAuthToken = async headers => {
   try {
     const token = await Session.getUserSessionToken(username)
     const decoded = await verifyToken(token)
-    verifyUser(username, decoded)
 
     return decoded
   } catch(err) {
@@ -45,3 +54,4 @@ const validateAuthToken = async headers => {
 }
 
 exports.validateAuthToken = validateAuthToken
+exports.verifyUserAuth = verifyUser

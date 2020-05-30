@@ -7,12 +7,16 @@ const Session = require('../../models/Session')
 
 const expect = chai.expect
 
-const { validateAuthToken } = require('../validateAuth')
+const {
+  verifyUserAuth,
+  validateAuthToken
+} = require('../validateAuth')
 const {
   CODES,
   MESSAGES,
   AUTH_TYPE,
   STATUS_CODES,
+  FORBIDDEN_CODE,
   AUTH_TOKEN_CODE,
   AUTH_FAILED_CODE,
   UNLOGGED_IN_CODE
@@ -22,6 +26,8 @@ describe('validateAuth', () => {
   let headers
   const username = 'testmock'
   const cookie = `user=${username}`
+  const channel = `user:${username}`
+  const realtimeChannel = `rt:user:${username}`
   const expiredToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiZW1haWwiOiJ0ZXN0bW9ja0B0ZXN0LmNvbSIsImNoYW5uZWwiOiJ1c2VyOnRlc3Rtb2NrIiwidXNlcm5hbWUiOiJ0ZXN0bW9jayIsImlhdCI6MTU5MDIzMzE3MywiZXhwIjoxNTkwMjc2MzczfQ.AzfK4a1nOhkCKQhuxA0CBD2oMxSh1gb-ik4Ifasxv6A'
   const authToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiZW1haWwiOiJ0ZXN0bW9ja0B0ZXN0LmNvbSIsImNoYW5uZWwiOiJ1c2VyOnRlc3Rtb2NrIiwidXNlcm5hbWUiOiJ0ZXN0bW9jayIsImlhdCI6MTU5MDQwMzY5NX0.AWmsNv5otXvVQChxC62G1X_72LKS0wP2IULmk-OM8is'
   const invalidToken = 'JhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiZW1haWwiOiJ0ZXN0bW9ja0B0ZXN0LmNvbSIsImNoYW5uZWwiOiJ1c2VyOnRlc3Rtb2NrIiwidXNlcm5hbWUiOiJ0ZXN0bW9jayIsImlhdCI6MTU5MDQwMzY5NX0.AWmsNv5otXvVQChxC62G1X_72LKS0wP2IULmk-OM8is'
@@ -111,6 +117,44 @@ describe('validateAuth', () => {
 
       expect(decoded)
         .to.includes({ username: 'testmock' })
+    })
+  })
+
+  describe('verifyUserAuth', () => {
+    it('Should throw a forbidden request error', () => {
+      try {
+        verifyUserAuth(channel, { username: 'test' })
+      } catch(err) {
+        expect(err)
+          .to.have.all.keys('statusCode', 'message', 'code')
+
+        expect(err)
+          .to.includes({ statusCode: STATUS_CODES[FORBIDDEN_CODE] })
+
+        expect(err)
+          .to.includes({ message: MESSAGES[FORBIDDEN_CODE] })
+
+        expect(err)
+          .to.includes({ code: CODES[AUTH_TYPE][FORBIDDEN_CODE] })
+      }
+    })
+
+    it('Should throw a forbidden request error for a realtime channel', () => {
+      try {
+        verifyUserAuth(realtimeChannel, { username: 'realtime.test' })
+      } catch(err) {
+        expect(err)
+          .to.have.all.keys('statusCode', 'message', 'code')
+
+        expect(err)
+          .to.includes({ statusCode: STATUS_CODES[FORBIDDEN_CODE] })
+
+        expect(err)
+          .to.includes({ message: MESSAGES[FORBIDDEN_CODE] })
+
+        expect(err)
+          .to.includes({ code: CODES[AUTH_TYPE][FORBIDDEN_CODE] })
+      }
     })
   })
 })
