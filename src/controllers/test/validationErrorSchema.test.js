@@ -13,10 +13,13 @@ const {
   LOGIN_TYPE,
   NOT_FOUND_CODE,
   FORBIDDEN_CODE,
+  ACTIVE_ALREADY,
+  ACTIVATION_TYPE,
   AUTH_TOKEN_CODE,
   MAX_LENGTH_CODE,
   AUTH_FAILED_CODE,
   LOGIN_FAILED_CODE,
+  ACTIVATE_USER_CODE,
   NOT_CONTAIN_LETTERS,
   NOT_CONTAIN_NUMBERS,
   MISSING_PARAMETER_CODE,
@@ -169,6 +172,28 @@ describe('validationErrorSchema', () => {
 
       expect(message)
         .to.equal(MESSAGES[FORBIDDEN_CODE])
+    })
+  })
+
+  describe('activate user', () => {
+    it('Should return an ACTIVE USER error message', () => {
+      const { code, message } = validationErrorSchema(ACTIVATION_TYPE, ACTIVATE_USER_CODE, 'token expired')
+
+      expect(code)
+        .to.equal(CODES[ACTIVATION_TYPE][ACTIVATE_USER_CODE])
+
+      expect(message)
+        .to.equal(`${MESSAGES[ACTIVATE_USER_CODE]}: token expired`)
+    })
+
+    it('Should return an ACTIVE ALREADY error message', () => {
+      const error = validationErrorSchema(ACTIVATION_TYPE, ACTIVATE_USER_CODE, 5, ACTIVE_ALREADY)
+
+      expect(error)
+        .to.have.property('code', CODES[ACTIVATION_TYPE][ACTIVATE_USER_CODE])
+
+      expect(error)
+        .to.have.property('message', `${MESSAGES[ACTIVATE_USER_CODE]}: User ID: 5 ${MESSAGES[ACTIVE_ALREADY]}`)
     })
   })
 })
