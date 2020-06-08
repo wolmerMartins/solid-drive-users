@@ -4,6 +4,8 @@ const TEST = 'test'
 const PRODUCTION = 'production'
 const DEVELOPMENT = 'development'
 
+const URL = 'http://localhost:4000/api/v1'
+
 const SC_404 = 404
 const SC_401 = 401
 const SC_403 = 403
@@ -11,6 +13,7 @@ const SC_403 = 403
 const USER_TYPE = 'USER'
 const LOGIN_TYPE = 'LOGIN'
 const AUTH_TYPE = 'AUTH'
+const ACTIVATION_TYPE = 'ACTIVATION'
 
 const EMAIL_FIELD = 'email'
 const LOGIN_FIELD = 'login'
@@ -35,6 +38,7 @@ const NOT_FOUND_CODE = 'notFound'
 const LOGIN_FAILED_CODE = 'loginFailed'
 const AUTH_FAILED_CODE = 'authFailed'
 const FORBIDDEN_CODE = 'forbidden'
+const ACTIVATE_USER_CODE = 'activateUser'
 
 const WHITE_SPACES_CODE = 'whiteSpaces'
 const MAX_LENGTH_CODE = 'maxLength'
@@ -46,6 +50,9 @@ const NOT_CONTAIN_SPECIAL_CHARACTER = 'specialCharacter'
 const AT_SYMBOL_CODE = 'atSymbol'
 const UNLOGGED_IN_CODE = 'unloggedIn'
 const AUTH_TOKEN_CODE = 'authToken'
+const ERROR_TRYING_TO = 'errorTryingTo'
+const ACTIVE_ALREADY = 'activeAlready'
+const ERROR_HAS_OCCURRED = 'errorHasOccurred'
 
 const USER_REQUIRED_PARAMETERS = [EMAIL_FIELD, USERNAME_FIELD, PASSWORD_FIELD]
 const LOGIN_REQUIRED_PARAMETERS = [LOGIN_FIELD, PASSWORD_FIELD]
@@ -76,6 +83,9 @@ const CODES = {
     [AUTH_FAILED_CODE]: 'auth0',
     [UNLOGGED_IN_CODE]: 'auth1',
     [FORBIDDEN_CODE]: 'auth2'
+  },
+  [ACTIVATION_TYPE]: {
+    [ACTIVATE_USER_CODE]: 'activation0'
   }
 }
 const MESSAGES = {
@@ -94,16 +104,23 @@ const MESSAGES = {
   [AUTH_FAILED_CODE]: 'Unauthorized request',
   [UNLOGGED_IN_CODE]: 'User not logged in',
   [AUTH_TOKEN_CODE]: 'Auth token',
-  [FORBIDDEN_CODE]: 'Forbidden request'
+  [FORBIDDEN_CODE]: 'Forbidden request',
+  [ERROR_TRYING_TO]: 'An error has occurred trying to',
+  [ACTIVATE_USER_CODE]: 'Activation user error',
+  [ACTIVE_ALREADY]: 'Is active already',
+  [ERROR_HAS_OCCURRED]: 'An error has occurred on'
 }
 
 exports.TEST = TEST
 exports.PRODUCTION = PRODUCTION
 exports.DEVELOPMENT = DEVELOPMENT
 
+exports.URL = URL
+
 exports.USER_TYPE = USER_TYPE
 exports.LOGIN_TYPE = LOGIN_TYPE
 exports.AUTH_TYPE = AUTH_TYPE
+exports.ACTIVATION_TYPE = ACTIVATION_TYPE
 
 exports.EMAIL_FIELD = EMAIL_FIELD
 exports.LOGIN_FIELD = LOGIN_FIELD
@@ -123,6 +140,9 @@ exports.PASSWORD_PATTERN = PASSWORD_PATTERN
 exports.AT_SYMBOL = AT_SYMBOL
 exports.UNLOGGED_IN_CODE = UNLOGGED_IN_CODE
 exports.AUTH_TOKEN_CODE = AUTH_TOKEN_CODE
+exports.ERROR_TRYING_TO = ERROR_TRYING_TO
+exports.ACTIVE_ALREADY = ACTIVE_ALREADY
+exports.ERROR_HAS_OCCURRED = ERROR_HAS_OCCURRED
 
 exports.INVALID_PARAMETER_CODE = INVALID_PARAMETER_CODE
 exports.MISSING_PARAMETER_CODE = MISSING_PARAMETER_CODE
@@ -130,6 +150,7 @@ exports.NOT_FOUND_CODE = NOT_FOUND_CODE
 exports.LOGIN_FAILED_CODE = LOGIN_FAILED_CODE
 exports.AUTH_FAILED_CODE = AUTH_FAILED_CODE
 exports.FORBIDDEN_CODE = FORBIDDEN_CODE
+exports.ACTIVATE_USER_CODE = ACTIVATE_USER_CODE
 
 exports.WHITE_SPACES_CODE = WHITE_SPACES_CODE
 exports.MAX_LENGTH_CODE = MAX_LENGTH_CODE
