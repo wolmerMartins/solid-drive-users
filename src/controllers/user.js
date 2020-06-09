@@ -9,11 +9,14 @@ const pushpin = require('./pushpin')
 const { generateToken } = require('./jwt')
 const controllerLogger = require('./logger')
 const { hashPassword } = require('./password')
+const { sendActivationEmail } = require('./mailer')
 const {
   validateEmail,
   validateUsername,
   validatePassword
 } = require('./validateUser')
+
+const { MESSAGES, ERROR_TRYING_TO } = require('../constants')
 
 const logger = controllerLogger.child({ module: 'user' })
 
@@ -34,23 +37,32 @@ const userController = {
     try {
       const user = await model.createUser(userData)
 
+      sendActivationEmail({ user, channel })
+
       logger.info({ user }, 'User created successfully')
 
-      pushpin.publish.response({
-        data: { user, using: 'pushpin' },
+      pushpin.publish.realtime({
+        data: {
+          success: true,
+          message: 'User created successfully'
+        },
         channel
       })
     } catch(error) {
-      logger.error({ error }, 'An error has occurred trying to create a new User')
+      logger.error({ error }, `${MESSAGES[ERROR_TRYING_TO]} create a new User`)
 
-      sendErrorResponse({ error, channel })
+      pushpin.publish.realtime({
+        data: { error },
+        close: true,
+        channel
+      })
     }
   },
   auth: async (user, channel) => {
     const { id, username, email } = user
 
     try {
-      const token = await generateToken({ id, email, channel, username })
+      const token = await generateToken({ id, email, channel, username }, '12h')
 
       await session.initUserSession(username, token)
 
@@ -59,7 +71,7 @@ const userController = {
         channel
       })
     } catch(error) {
-      logger.error({ error }, 'An error has occurred trying to log the user in')
+      logger.error({ error }, `${MESSAGES[ERROR_TRYING_TO]} log the user in`)
 
       sendErrorResponse({ error, channel })
     }
@@ -84,7 +96,7 @@ const userController = {
         channel
       })
     } catch(error) {
-      logger.error({ error }, 'An error has occurred trying to update user')
+      logger.error({ error }, `${MESSAGES[ERROR_TRYING_TO]} update user`)
 
       sendErrorResponse({ error, channel })
     }
@@ -98,7 +110,24 @@ const userController = {
         channel
       })
     } catch(error) {
-      logger.error({ error }, 'An error has occurred trying to disable user')
+      logger.error({ error }, `${MESSAGES[ERROR_TRYING_TO]} disable user`)
+
+      sendErrorResponse({ error, channel })
+    }
+  },
+  activate: async ({ user, channel }) => {
+    try {
+      const activatedUser = await user.update({ isActive: true })
+
+      pushpin.publish.response({
+        data: {
+          success: true,
+          message: `The user with id ${activatedUser.id} is activated`
+        },
+        channel
+      })
+    } catch(error) {
+      logger.error({ error }, `${MESSAGES[ERROR_TRYING_TO]} activate user`)
 
       sendErrorResponse({ error, channel })
     }
