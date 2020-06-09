@@ -7,7 +7,15 @@ const controllerLogger = require('./logger')
 
 const logger = controllerLogger.child({ module: 'pushpin' })
 
-const mountFormatObject = ({ data, realtime }) => {
+const mountFormatObject = ({ data, close, realtime }) => {
+  if (close) {
+    return {
+      'http-stream': {
+        action: 'close'
+      }
+    }
+  }
+
   const publishData = `${JSON.stringify(data)}\n`
 
   if (realtime) {
@@ -25,13 +33,13 @@ const mountFormatObject = ({ data, realtime }) => {
   }
 }
 
-const publishData = ({ data, channel, realtime }) => {
+const publishData = ({ data, close, channel, realtime }) => {
   axios
     .post(config.pushpin.publishUrl, {
       items: [
         {
           channel,
-          formats: mountFormatObject({ data, realtime })
+          formats: mountFormatObject({ data, close, realtime })
         }
       ]
     })
@@ -51,7 +59,7 @@ const setChannelHeaders = realtime => {
   }
 }
 
-const signToChannel = ({ res, channel, realtime }) => {
+const signToChannel = ({ res, message, channel, realtime }) => {
   const headers = {
     'Grip-Channel': channel,
     ...setChannelHeaders(realtime)
@@ -64,7 +72,7 @@ const signToChannel = ({ res, channel, realtime }) => {
 
   res
     .writeHead(200, headers)
-    .end('\n')
+    .end(JSON.stringify({ success: true, message }))
 }
 
 const pushpin = {
@@ -80,12 +88,15 @@ const pushpin = {
     realtime: ({ res, channel }) => {
       signToChannel({ res, channel, realtime: true })
     },
-    response: ({ res, channel }) => {
-      signToChannel({ res, channel })
+    response: ({ res, message, channel }) => {
+      signToChannel({ res, message, channel })
     },
   },
   publish: {
-    realtime: ({ data, channel }) => publishData({ data, channel, realtime: true }),
+    realtime: ({ data, close, channel }) => {
+      publishData({ data, channel, realtime: true })
+      if (close) publishData({ close, channel })
+    },
     response: ({ data, channel }) => publishData({ data, channel })
   }
 }
