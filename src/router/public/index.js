@@ -17,6 +17,15 @@ const {
   checkIfPasswordMatch,
   validateLoginRequiredParameters
 } = require('../../controllers/validateLogin')
+const {
+  shouldActivateUser,
+  validateActivationToken
+} = require('../../controllers/validateActivateUser')
+
+const {
+  MESSAGES,
+  ERROR_HAS_OCCURRED
+} = require('../../constants')
 
 const logger = routerLogger.child({ module: 'public' })
 
@@ -26,10 +35,14 @@ const errorResponse = ({ res, error }) => {
   res.status(statusCode ?? 400).json({ message, code })
 }
 
-const signToPushpin = ({ res, channelName }) => {
-  const channel = pushpin.getChannel({ channelName })
+const signToPushpin = ({ res, channelName, realtime }) => {
+  const channel = pushpin.getChannel({ channelName, realtime })
 
-  pushpin.sign.response({ res, channel })
+  if (realtime) {
+    pushpin.sign.realtime({ res, channel })
+  } else {
+    pushpin.sign.response({ res, channel })
+  }
 
   return channel
 }
@@ -45,11 +58,11 @@ router.post('/', async (req, res) => {
 
     const { username } = body
 
-    const channel = signToPushpin({ res, channelName: username })
+    const channel = signToPushpin({ res, channelName: username, realtime: true })
 
     userController.create(body, channel)
   } catch(error) {
-    logger.error({ error }, 'An error has occurred on create user')
+    logger.error({ error }, `${MESSAGES[ERROR_HAS_OCCURRED]} create user`)
 
     errorResponse({ res, error })
   }
@@ -70,9 +83,29 @@ router.post('/auth', async (req, res) => {
 
     userController.auth(user, channel)
   } catch(error) {
-    logger.error({ error }, 'An error has occurred on auth user')
+    logger.error({ error }, `${MESSAGES[ERROR_HAS_OCCURRED]} auth user`)
 
     errorResponse({ res, error })
+  }
+})
+
+router.get('/:id/activate/:token', async (req, res) => {
+  const { params: { id, token } } = req
+
+  try {
+    const user = await shouldActivateUser(id)
+    const decoded = await validateActivationToken(token)
+    const channel = decoded.channel.replace('rt:', '')
+
+    pushpin.sign.response({
+      res,
+      channel,
+      message: `Received activation token for user id: ${id}`
+    })
+
+    userController.activate({ user, channel })
+  } catch(error) {
+    logger.error({ error }, `${MESSAGES[ERROR_HAS_OCCURRED]} activate user`)
   }
 })
 
