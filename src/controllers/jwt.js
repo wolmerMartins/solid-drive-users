@@ -5,9 +5,9 @@ const jwt = require('jsonwebtoken')
 const config = require('../config/config')
 
 module.exports = {
-  generateToken: payload => new Promise((resolve, reject) => {
+  generateToken: (payload, expiresIn) => new Promise((resolve, reject) => {
     try {
-      const token = jwt.sign(payload, config.jwt.secret, { expiresIn: '12h' })
+      const token = jwt.sign(payload, config.jwt.secret, { expiresIn })
       resolve(token)
     } catch(err) {
       reject(err)
