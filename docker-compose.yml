@@ -17,8 +17,12 @@ services:
       DEV_REDIS_PORT: 6379
       DEV_REDIS_HOST: redis
       DEV_JWT_SECRET: cd9fb2add38b1793efce43e9d00f9eb0d3698b6e231765d5ec7212bcb3573bbd07ce1625aa7280371fe65bc5701ed36ce0af6d26eda59d6169e39310b5fdab4f
+      DEV_EMAIL_USER: soliddrive@outlook.com.br
+      DEV_EMAIL_PASSWORD: # email password
     volumes:
       - .:/app
+    ports:
+      - 9229:9229
     depends_on:
       - pushpin
       - db
