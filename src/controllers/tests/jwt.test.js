@@ -17,7 +17,7 @@ describe('jwt', () => {
 
   describe('generateToken', () => {
     it('Should receive a payload and return a JWT token', async () => {
-      const token = await generateToken({ id, email, channel, username })
+      const token = await generateToken({ id, email, channel, username }, '12h')
 
       expect(token)
         .to.have.length(239)
