@@ -36,6 +36,14 @@ const config = {
   },
   jwt: {
     secret: getValueFromEnv('JWT_SECRET')
+  },
+  email: {
+    user: getValueFromEnv('EMAIL_USER'),
+    password: getValueFromEnv('EMAIL_PASSWORD'),
+    host: 'smtp-mail.outlook.com',
+    secureConnection: false,
+    ciphers: 'SSLv3',
+    port: 587
   }
 }
 
