@@ -21,6 +21,7 @@ services:
       DEV_EMAIL_PASSWORD: # email password
     volumes:
       - .:/app
+      - app/node_modules
     ports:
       - 9229:9229
     depends_on:
