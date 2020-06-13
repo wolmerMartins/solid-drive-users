@@ -7,6 +7,8 @@ const { getUserKey } = require('./utils')
 const validationErrorSchema = require('./validationErrorSchema')
 const {
   LOGIN_TYPE,
+  DONT_MATCH,
+  NOT_ACTIVE,
   STATUS_CODES,
   NOT_FOUND_CODE,
   LOGIN_FAILED_CODE,
@@ -14,12 +16,23 @@ const {
   LOGIN_REQUIRED_PARAMETERS
 } = require('../constants')
 
+const checkIfUserIsActive = ({ isActive }) => {
+  if (!isActive) {
+    const {
+      code,
+      message
+    } = validationErrorSchema(LOGIN_TYPE, LOGIN_FAILED_CODE, null, NOT_ACTIVE)
+
+    throw new UserError(message, code, STATUS_CODES[LOGIN_FAILED_CODE])
+  }
+}
+
 const checkIfPasswordMatch = ({ body, user }) => {
   if (!verifyPassword({ user, body })) {
     const {
       code,
       message
-    } = validationErrorSchema(LOGIN_TYPE, LOGIN_FAILED_CODE)
+    } = validationErrorSchema(LOGIN_TYPE, LOGIN_FAILED_CODE, null, DONT_MATCH)
 
     throw new UserError(message, code, STATUS_CODES[LOGIN_FAILED_CODE])
   }
@@ -52,3 +65,4 @@ const validateLoginRequiredParameters = body => {
 exports.validateLoginRequiredParameters = validateLoginRequiredParameters
 exports.checkIfUserExists = checkIfUserExists
 exports.checkIfPasswordMatch = checkIfPasswordMatch
+exports.checkIfUserIsActive = checkIfUserIsActive
