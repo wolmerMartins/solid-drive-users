@@ -7,6 +7,7 @@ const userModel = require('../../models/User')
 const { hashPassword } = require('../password')
 const {
   checkIfUserExists,
+  checkIfUserIsActive,
   checkIfPasswordMatch,
   validateLoginRequiredParameters
 } = require('../validateLogin')
@@ -14,6 +15,8 @@ const {
   CODES,
   MESSAGES,
   LOGIN_TYPE,
+  DONT_MATCH,
+  NOT_ACTIVE,
   NOT_FOUND_CODE,
   LOGIN_FAILED_CODE,
   MISSING_PARAMETER_CODE
@@ -157,10 +160,27 @@ describe('validateLogin', () => {
           .to.equal(401)
 
         expect(message)
-          .to.equal(MESSAGES[LOGIN_FAILED_CODE])
+          .to.equal(`${MESSAGES[LOGIN_FAILED_CODE]}: ${MESSAGES[DONT_MATCH]}`)
 
         expect(code)
-          .to.equal(CODES[LOGIN_TYPE][LOGIN_FAILED_CODE])
+          .to.equal(CODES[LOGIN_TYPE][DONT_MATCH])
+      }
+    })
+  })
+
+  describe('checkIfUserIsActive', () => {
+    it('Should check if the user is active and throw an inactive error', () => {
+      try {
+        checkIfUserIsActive({ isActive: 0 })
+      } catch(err) {
+        expect(err)
+          .to.have.property('statusCode', 401)
+
+        expect(err)
+          .to.have.property('message', `${MESSAGES[LOGIN_FAILED_CODE]}: ${MESSAGES[NOT_ACTIVE]}`)
+
+        expect(err)
+          .to.have.property('code', CODES[LOGIN_TYPE][NOT_ACTIVE])
       }
     })
   })
