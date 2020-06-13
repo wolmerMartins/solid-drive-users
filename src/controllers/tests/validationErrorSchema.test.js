@@ -11,6 +11,8 @@ const {
   AUTH_TYPE,
   USER_TYPE,
   LOGIN_TYPE,
+  DONT_MATCH,
+  NOT_ACTIVE,
   NOT_FOUND_CODE,
   FORBIDDEN_CODE,
   ACTIVE_ALREADY,
@@ -130,7 +132,7 @@ describe('validationErrorSchema', () => {
   })
 
   describe('login failed', () => {
-    it('Should return an LOGIN FAILED error message', () => {
+    it('Should return a LOGIN FAILED error message', () => {
       const { code, message } = validationErrorSchema(LOGIN_TYPE, LOGIN_FAILED_CODE)
 
       expect(code)
@@ -138,6 +140,26 @@ describe('validationErrorSchema', () => {
 
       expect(message)
         .to.equal(MESSAGES[LOGIN_FAILED_CODE])
+    })
+
+    it('Should return a DONT MATCH login error message', () => {
+      const error = validationErrorSchema(LOGIN_TYPE, LOGIN_FAILED_CODE, null, DONT_MATCH)
+
+      expect(error)
+        .to.have.property('code', CODES[LOGIN_TYPE][DONT_MATCH])
+
+      expect(error)
+        .to.have.property('message', `${MESSAGES[LOGIN_FAILED_CODE]}: ${MESSAGES[DONT_MATCH]}`)
+    })
+
+    it('Should return a NOT ACTIVE error message', () => {
+      const error = validationErrorSchema(LOGIN_TYPE, LOGIN_FAILED_CODE, null, NOT_ACTIVE)
+
+      expect(error)
+        .to.have.property('code', CODES[LOGIN_TYPE][NOT_ACTIVE])
+
+      expect(error)
+        .to.have.property('message', `${MESSAGES[LOGIN_FAILED_CODE]}: ${MESSAGES[NOT_ACTIVE]}`)
     })
   })
 
