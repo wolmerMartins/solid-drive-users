@@ -14,6 +14,7 @@ const {
 } = require('../../controllers/validateUser')
 const {
   checkIfUserExists,
+  checkIfUserIsActive,
   checkIfPasswordMatch,
   validateLoginRequiredParameters
 } = require('../../controllers/validateLogin')
@@ -68,13 +69,14 @@ router.post('/', async (req, res) => {
   }
 })
 
-router.post('/auth', async (req, res) => {
+router.post('/login', async (req, res) => {
   const { body } = req
 
   try {
     validateLoginRequiredParameters(body)
     const user = await checkIfUserExists(body)
     checkIfPasswordMatch({ body, user })
+    checkIfUserIsActive(user)
 
     const { login } = body
 
