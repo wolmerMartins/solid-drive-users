@@ -35,6 +35,12 @@ const setAuthFailedMessage = (code, values, messageCode) => {
   return setMessage(code, `${MESSAGES[messageCode]}${values ? `: ${setValues(values)}` : ''}`)
 }
 
+const setLoginFailedMessage = (code, messageCode) => {
+  const message = MESSAGES[messageCode]
+
+  return setMessage(code, message)
+}
+
 const setNotFoundMessage = (code, values) => {
   const { username, email, id } = values
   const message = `User: ${username
@@ -86,8 +92,8 @@ const validationErrorSchema = (type, code, values, messageCode, required) => {
       }
     case LOGIN_FAILED_CODE:
       return {
-        message: setMessage(code),
-        code: CODES[type][code]
+        message: setLoginFailedMessage(code, messageCode),
+        code: CODES[type][messageCode ?? code]
       }
     case AUTH_FAILED_CODE:
       return {
