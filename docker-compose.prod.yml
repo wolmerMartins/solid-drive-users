@@ -8,6 +8,7 @@ services:
     image: solid-drive-users
     environment:
       NODE_ENV: production
+      PROD_PORT: 4000
     depends_on:
       - pushpin
   pushpin:
@@ -15,4 +16,4 @@ services:
     environment:
       target: node:4000
     ports:
-      - 4000:7999
+      - 80:7999

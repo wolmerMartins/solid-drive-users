@@ -1,7 +1,8 @@
 'use strict'
 
 const pushpin = require('./pushpin')
-const { URL } = require('../constants')
+const config = require('../config/config')
+const { API_V1 } = require('../constants')
 const { generateToken } = require('./jwt')
 const mailer = require('../config/mailer')
 const controllerLogger = require('./logger')
@@ -59,7 +60,7 @@ const activateButton = ({ id, token }) => `
   <div style="width: 100%; height: 70px; text-align: center;">
     <a
       style="${buttonStyle}"
-      href="${`${URL}/users/${id}/activate/${token}`}"
+      href="${`${config.domain.url}${API_V1}/users/${id}/activate/${token}`}"
     >
       Activate Account
     </a>
