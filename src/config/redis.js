@@ -7,11 +7,13 @@ const session = require('../models/Session')
 
 const logger = configLogger.child({ module: 'redis' })
 
-const setup = ({ db, host, port }) => {
+const setup = ({ db, host, port, password }) => {
   const client = redis.createClient({
     db,
     host,
     port,
+    password,
+    no_ready_check: true,
     prefix: 'sd:session:user:'
   })
 

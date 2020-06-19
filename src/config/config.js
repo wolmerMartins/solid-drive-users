@@ -32,7 +32,8 @@ const config = {
   redis: {
     db: getValueFromEnv('REDIS_DB'),
     host: getValueFromEnv('REDIS_HOST'),
-    port: getValueFromEnv('REDIS_PORT')
+    port: getValueFromEnv('REDIS_PORT'),
+    password: getValueFromEnv('REDIS_PASSWORD')
   },
   jwt: {
     secret: getValueFromEnv('JWT_SECRET')
@@ -44,6 +45,9 @@ const config = {
     secureConnection: false,
     ciphers: 'SSLv3',
     port: 587
+  },
+  domain: {
+    url: getValueFromEnv('DOMAIN_URL')
   }
 }
 

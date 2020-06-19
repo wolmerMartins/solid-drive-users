@@ -4,7 +4,7 @@ const TEST = 'test'
 const PRODUCTION = 'production'
 const DEVELOPMENT = 'development'
 
-const URL = 'http://localhost:4000/api/v1'
+const API_V1 = '/api/v1'
 
 const SC_404 = 404
 const SC_401 = 401
@@ -121,7 +121,7 @@ exports.TEST = TEST
 exports.PRODUCTION = PRODUCTION
 exports.DEVELOPMENT = DEVELOPMENT
 
-exports.URL = URL
+exports.API_V1 = API_V1
 
 exports.USER_TYPE = USER_TYPE
 exports.LOGIN_TYPE = LOGIN_TYPE
