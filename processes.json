@@ -1,0 +1,11 @@
+{
+  "apps": [
+    {
+      "name": "solid-drive-users",
+      "script": "node ./src/index.js",
+      "merge_logs": true,
+      "max_restarts": 20,
+      "max_memory_restart": "200M"
+    }
+  ]
+}
