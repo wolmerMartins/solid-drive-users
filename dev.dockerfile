@@ -10,8 +10,7 @@ COPY package.json ./package.json
 COPY package-lock.json ./package-lock.json
 
 RUN npm install \
-    && mv node_modules ../ \
-    && npm install -g nodemon
+    && mv node_modules ../
 
 RUN useradd -g 1000 -u 1001 solid \
     && chown -R solid /app
