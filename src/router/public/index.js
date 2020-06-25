@@ -16,6 +16,7 @@ const {
   checkIfUserExists,
   checkIfUserIsActive,
   checkIfPasswordMatch,
+  checkIfUserIsNotDisabled,
   validateLoginRequiredParameters
 } = require('../../controllers/validateLogin')
 const {
@@ -77,15 +78,16 @@ router.post('/login', async (req, res) => {
     const user = await checkIfUserExists(body)
     checkIfPasswordMatch({ body, user })
     checkIfUserIsActive(user)
+    checkIfUserIsNotDisabled(user)
 
     const { login } = body
 
     res.cookie('user', user.username)
     const channel = signToPushpin({ res, channelName: login })
 
-    userController.auth(user, channel)
+    userController.login(user, channel)
   } catch(error) {
-    logger.error({ error }, `${MESSAGES[ERROR_HAS_OCCURRED]} auth user`)
+    logger.error({ error }, `${MESSAGES[ERROR_HAS_OCCURRED]} login user`)
 
     errorResponse({ res, error })
   }
