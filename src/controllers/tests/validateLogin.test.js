@@ -9,6 +9,7 @@ const {
   checkIfUserExists,
   checkIfUserIsActive,
   checkIfPasswordMatch,
+  checkIfUserIsNotDisabled,
   validateLoginRequiredParameters
 } = require('../validateLogin')
 const {
@@ -17,6 +18,7 @@ const {
   LOGIN_TYPE,
   DONT_MATCH,
   NOT_ACTIVE,
+  DISABLED_USER,
   NOT_FOUND_CODE,
   LOGIN_FAILED_CODE,
   MISSING_PARAMETER_CODE
@@ -181,6 +183,23 @@ describe('validateLogin', () => {
 
         expect(err)
           .to.have.property('code', CODES[LOGIN_TYPE][NOT_ACTIVE])
+      }
+    })
+  })
+
+  describe('checkIfUserIsNotDisabled', () => {
+    it('Should check if user is not disabled an thrown a disabled error', () => {
+      try {
+        checkIfUserIsNotDisabled({ isDisabled: 1 })
+      } catch(err) {
+        expect(err)
+          .to.have.property('statusCode', 401)
+
+        expect(err)
+          .to.have.property('message', `${MESSAGES[LOGIN_FAILED_CODE]}: ${MESSAGES[DISABLED_USER]}`)
+
+        expect(err)
+          .to.have.property('code', CODES[LOGIN_TYPE][DISABLED_USER])
       }
     })
   })

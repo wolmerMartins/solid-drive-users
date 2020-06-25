@@ -10,11 +10,23 @@ const {
   DONT_MATCH,
   NOT_ACTIVE,
   STATUS_CODES,
+  DISABLED_USER,
   NOT_FOUND_CODE,
   LOGIN_FAILED_CODE,
   MISSING_PARAMETER_CODE,
   LOGIN_REQUIRED_PARAMETERS
 } = require('../constants')
+
+const checkIfUserIsNotDisabled = ({ isDisabled }) => {
+  if (isDisabled) {
+    const {
+      code,
+      message,
+    } = validationErrorSchema(LOGIN_TYPE, LOGIN_FAILED_CODE, null, DISABLED_USER)
+
+    throw new UserError(message, code, STATUS_CODES[LOGIN_FAILED_CODE])
+  }
+}
 
 const checkIfUserIsActive = ({ isActive }) => {
   if (!isActive) {
@@ -66,3 +78,4 @@ exports.validateLoginRequiredParameters = validateLoginRequiredParameters
 exports.checkIfUserExists = checkIfUserExists
 exports.checkIfPasswordMatch = checkIfPasswordMatch
 exports.checkIfUserIsActive = checkIfUserIsActive
+exports.checkIfUserIsNotDisabled = checkIfUserIsNotDisabled
