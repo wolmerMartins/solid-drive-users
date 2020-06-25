@@ -9,6 +9,8 @@ WORKDIR /app
 COPY package.json ./package.json
 COPY package-lock.json ./package-lock.json
 
+RUN npm install -g nodemon
+
 RUN npm install \
     && mv node_modules ../
 
