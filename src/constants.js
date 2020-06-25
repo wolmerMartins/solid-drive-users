@@ -55,6 +55,7 @@ const ACTIVE_ALREADY = 'activeAlready'
 const ERROR_HAS_OCCURRED = 'errorHasOccurred'
 const DONT_MATCH = 'dontMatch'
 const NOT_ACTIVE = 'notActive'
+const DISABLED_USER = 'disabledUser'
 
 const USER_REQUIRED_PARAMETERS = [EMAIL_FIELD, USERNAME_FIELD, PASSWORD_FIELD]
 const LOGIN_REQUIRED_PARAMETERS = [LOGIN_FIELD, PASSWORD_FIELD]
@@ -81,7 +82,8 @@ const CODES = {
     [NOT_FOUND_CODE]: 'login1',
     [LOGIN_FAILED_CODE]: 'login2',
     [DONT_MATCH]: 'login3',
-    [NOT_ACTIVE]: 'login4'
+    [NOT_ACTIVE]: 'login4',
+    [DISABLED_USER]: 'login5'
   },
   [AUTH_TYPE]: {
     [AUTH_FAILED_CODE]: 'auth0',
@@ -114,7 +116,8 @@ const MESSAGES = {
   [ACTIVE_ALREADY]: 'Is active already',
   [ERROR_HAS_OCCURRED]: 'An error has occurred on',
   [DONT_MATCH]: 'Username or password doesn\'t match',
-  [NOT_ACTIVE]: 'The user is not activated'
+  [NOT_ACTIVE]: 'The user is not activated',
+  [DISABLED_USER]: 'The user is disabled'
 }
 
 exports.TEST = TEST
@@ -151,6 +154,7 @@ exports.ACTIVE_ALREADY = ACTIVE_ALREADY
 exports.ERROR_HAS_OCCURRED = ERROR_HAS_OCCURRED
 exports.DONT_MATCH = DONT_MATCH
 exports.NOT_ACTIVE = NOT_ACTIVE
+exports.DISABLED_USER = DISABLED_USER
 
 exports.INVALID_PARAMETER_CODE = INVALID_PARAMETER_CODE
 exports.MISSING_PARAMETER_CODE = MISSING_PARAMETER_CODE
