@@ -58,7 +58,7 @@ const userController = {
       })
     }
   },
-  auth: async (user, channel) => {
+  login: async (user, channel) => {
     const { id, username, email } = user
 
     try {
