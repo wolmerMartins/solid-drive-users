@@ -9,6 +9,7 @@ const {
   AUTH_FAILED_CODE,
   LOGIN_FAILED_CODE,
   ACTIVATE_USER_CODE,
+  REENABLE_USER_CODE,
   MISSING_PARAMETER_CODE,
   INVALID_PARAMETER_CODE
 } = require('../constants')
@@ -21,6 +22,12 @@ const setValues = values => {
 const setMessage = (code, values) => {
   if (values && values.length) return `${MESSAGES[code]}: ${setValues(values)}`
   return MESSAGES[code]
+}
+
+const setReenableUserMessage = (code, values, messageCode) => {
+  if (!messageCode) return setMessage(code, values)
+
+  return setMessage(code, `User: ${values} ${MESSAGES[messageCode]}`)
 }
 
 const setActivateUserMessage = (code, values, messageCode) => {
@@ -108,6 +115,11 @@ const validationErrorSchema = (type, code, values, messageCode, required) => {
     case ACTIVATE_USER_CODE:
       return {
         message: setActivateUserMessage(code, values, messageCode),
+        code: CODES[type][code]
+      }
+    case REENABLE_USER_CODE:
+      return {
+        message: setReenableUserMessage(code, values, messageCode),
         code: CODES[type][code]
       }
   }

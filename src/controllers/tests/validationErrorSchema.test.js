@@ -13,15 +13,18 @@ const {
   LOGIN_TYPE,
   DONT_MATCH,
   NOT_ACTIVE,
+  REENABLE_TYPE,
   NOT_FOUND_CODE,
   FORBIDDEN_CODE,
   ACTIVE_ALREADY,
   ACTIVATION_TYPE,
   AUTH_TOKEN_CODE,
   MAX_LENGTH_CODE,
+  ENABLED_ALREADY,
   AUTH_FAILED_CODE,
   LOGIN_FAILED_CODE,
   ACTIVATE_USER_CODE,
+  REENABLE_USER_CODE,
   NOT_CONTAIN_LETTERS,
   NOT_CONTAIN_NUMBERS,
   MISSING_PARAMETER_CODE,
@@ -143,23 +146,23 @@ describe('validationErrorSchema', () => {
     })
 
     it('Should return a DONT MATCH login error message', () => {
-      const error = validationErrorSchema(LOGIN_TYPE, LOGIN_FAILED_CODE, null, DONT_MATCH)
+      const { code, message } = validationErrorSchema(LOGIN_TYPE, LOGIN_FAILED_CODE, null, DONT_MATCH)
 
-      expect(error)
-        .to.have.property('code', CODES[LOGIN_TYPE][DONT_MATCH])
+      expect(code)
+        .to.equal(CODES[LOGIN_TYPE][DONT_MATCH])
 
-      expect(error)
-        .to.have.property('message', `${MESSAGES[LOGIN_FAILED_CODE]}: ${MESSAGES[DONT_MATCH]}`)
+      expect(message)
+        .to.equal(`${MESSAGES[LOGIN_FAILED_CODE]}: ${MESSAGES[DONT_MATCH]}`)
     })
 
     it('Should return a NOT ACTIVE error message', () => {
-      const error = validationErrorSchema(LOGIN_TYPE, LOGIN_FAILED_CODE, null, NOT_ACTIVE)
+      const { code, message } = validationErrorSchema(LOGIN_TYPE, LOGIN_FAILED_CODE, null, NOT_ACTIVE)
 
-      expect(error)
-        .to.have.property('code', CODES[LOGIN_TYPE][NOT_ACTIVE])
+      expect(code)
+        .to.equal(CODES[LOGIN_TYPE][NOT_ACTIVE])
 
-      expect(error)
-        .to.have.property('message', `${MESSAGES[LOGIN_FAILED_CODE]}: ${MESSAGES[NOT_ACTIVE]}`)
+      expect(message)
+        .to.equal(`${MESSAGES[LOGIN_FAILED_CODE]}: ${MESSAGES[NOT_ACTIVE]}`)
     })
   })
 
@@ -209,13 +212,35 @@ describe('validationErrorSchema', () => {
     })
 
     it('Should return an ACTIVE ALREADY error message', () => {
-      const error = validationErrorSchema(ACTIVATION_TYPE, ACTIVATE_USER_CODE, 5, ACTIVE_ALREADY)
+      const { code, message } = validationErrorSchema(ACTIVATION_TYPE, ACTIVATE_USER_CODE, 5, ACTIVE_ALREADY)
 
-      expect(error)
-        .to.have.property('code', CODES[ACTIVATION_TYPE][ACTIVATE_USER_CODE])
+      expect(code)
+        .to.equal(CODES[ACTIVATION_TYPE][ACTIVATE_USER_CODE])
 
-      expect(error)
-        .to.have.property('message', `${MESSAGES[ACTIVATE_USER_CODE]}: User ID: 5 ${MESSAGES[ACTIVE_ALREADY]}`)
+      expect(message)
+        .to.equal(`${MESSAGES[ACTIVATE_USER_CODE]}: User ID: 5 ${MESSAGES[ACTIVE_ALREADY]}`)
+    })
+  })
+
+  describe('reenable user', () => {
+    it('Should return a REENABLE USER error message', () => {
+      const { code, message } = validationErrorSchema(REENABLE_TYPE, REENABLE_USER_CODE, 'token expired')
+
+      expect(code)
+        .to.equal(CODES[REENABLE_TYPE][REENABLE_USER_CODE])
+
+      expect(message)
+        .to.equal(`${MESSAGES[REENABLE_USER_CODE]}: token expired`)
+    })
+
+    it('Should return a USER ALREADY ENABLED error message', () => {
+      const { code, message } = validationErrorSchema(REENABLE_TYPE, REENABLE_USER_CODE, 1, ENABLED_ALREADY)
+
+      expect(code)
+        .to.equal(CODES[REENABLE_TYPE][REENABLE_USER_CODE])
+
+      expect(message)
+        .to.equal(`${MESSAGES[REENABLE_USER_CODE]}: User: 1 ${MESSAGES[ENABLED_ALREADY]}`)
     })
   })
 })
