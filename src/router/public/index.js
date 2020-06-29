@@ -3,6 +3,8 @@
 const express = require('express')
 const router = express.Router()
 
+const reenableRouter = require('./reenableRoutes')
+
 const routerLogger = require('../logger')
 const pushpin = require('../../controllers/pushpin')
 const userController = require('../../controllers/user')
@@ -49,6 +51,8 @@ const signToPushpin = ({ res, channelName, realtime }) => {
   return channel
 }
 
+router.use(reenableRouter)
+
 router.post('/', async (req, res) => {
   const { body } = req
 
@@ -76,9 +80,9 @@ router.post('/login', async (req, res) => {
   try {
     validateLoginRequiredParameters(body)
     const user = await checkIfUserExists(body)
-    checkIfPasswordMatch({ body, user })
     checkIfUserIsActive(user)
     checkIfUserIsNotDisabled(user)
+    checkIfPasswordMatch({ body, user })
 
     const { login } = body
 
@@ -110,6 +114,8 @@ router.get('/:id/activate/:token', async (req, res) => {
     userController.activate({ user, channel })
   } catch(error) {
     logger.error({ error }, `${MESSAGES[ERROR_HAS_OCCURRED]} activate user`)
+
+    errorResponse({ res, error })
   }
 })
 
