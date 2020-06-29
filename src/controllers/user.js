@@ -9,7 +9,11 @@ const pushpin = require('./pushpin')
 const { generateToken } = require('./jwt')
 const controllerLogger = require('./logger')
 const { hashPassword } = require('./password')
-const { sendActivationEmail } = require('./mailer')
+const { shouldReenableUser } = require('./validateReenableUser')
+const {
+  sendReenableEmail,
+  sendActivationEmail
+} = require('./mailer')
 const {
   validateEmail,
   validateUsername,
@@ -122,7 +126,7 @@ const userController = {
       pushpin.publish.response({
         data: {
           success: true,
-          message: `The user with id ${activatedUser.id} is activated`
+          message: `User ${activatedUser.id} is activated`
         },
         channel
       })
@@ -130,6 +134,46 @@ const userController = {
       logger.error({ error }, `${MESSAGES[ERROR_TRYING_TO]} activate user`)
 
       sendErrorResponse({ error, channel })
+    }
+  },
+  reenableEmail: async ({ username, channel }) => {
+    try {
+      const user = await shouldReenableUser({ username })
+
+      sendReenableEmail({ user, channel })
+
+      pushpin.publish.realtime({
+        data: { message: 'Reenable user solicitation received' },
+        channel
+      })
+    } catch(error) {
+      logger.error({ error }, `${MESSAGES[ERROR_TRYING_TO]} send reenable user email`)
+
+      pushpin.publish.realtime({
+        data: { error },
+        close: true,
+        channel
+      })
+    }
+  },
+  reenable: async ({ user, channel }) => {
+    try {
+      await user.update({ isDisabled: true })
+
+      pushpin.publish.response({
+        data: {
+          message: `User ${user.id} is reenabled`,
+          success: true
+        },
+        channel
+      })
+    } catch(error) {
+      logger.error({ error }, `${MESSAGES[ERROR_TRYING_TO]} reenable user`)
+
+      pushpin.publish.response({
+        data: { error },
+        channel
+      })
     }
   }
 }
