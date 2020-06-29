@@ -35,7 +35,12 @@ const setup = async (sequelize) => {
       allowNull: false
     }
   }, {
-    tableName: 'users'
+    tableName: 'users',
+    defaultScope: {
+      attributes: {
+        exclude: ['password']
+      }
+    }
   })
 
   await User.sync()
