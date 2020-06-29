@@ -5,13 +5,15 @@ const expect = chai.expect
 
 const {
   getCookies,
-  getUserKey
+  getUserKey,
+  hasDifference
 } = require('../utils')
 
 describe('utils', () => {
   const id = 2
   const email = 'testmock@test.com'
   const username = 'testmock'
+  const required = ['id', 'email', 'username']
   let headers
 
   beforeEach(() => headers = {})
@@ -82,6 +84,24 @@ describe('utils', () => {
 
       expect(cookies.size)
         .to.be.equal(3)
+    })
+  })
+
+  describe('hasDifference', () => {
+    it('Should return an array with 3 values, \'id\', \'email\' and \'username\'', () => {
+      const difference = hasDifference({ body: {}, required })
+
+      expect(difference)
+        .to.have.lengthOf(3)
+
+      expect(difference)
+        .to.includes('id')
+
+      expect(difference)
+        .to.includes('email')
+
+      expect(difference)
+        .to.includes('username')
     })
   })
 })

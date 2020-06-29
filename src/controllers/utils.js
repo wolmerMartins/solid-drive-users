@@ -6,6 +6,8 @@ const {
   USERNAME_FIELD
 } = require('../constants')
 
+const hasDifference = ({ body, required }) => required.filter(field => !Object.keys(body).includes(field))
+
 const getCookies = ({ cookie }) => {
   const cookiesObj = new Map()
   if (!cookie) return cookiesObj
@@ -29,3 +31,4 @@ const getUserKey = ({ id, login }) => {
 
 exports.getUserKey = getUserKey
 exports.getCookies = getCookies
+exports.hasDifference = hasDifference
