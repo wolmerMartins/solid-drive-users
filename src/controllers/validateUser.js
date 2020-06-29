@@ -2,6 +2,7 @@
 
 const model = require('../models/User')
 const UserError = require('../UserError')
+const { hasDifference } = require('./utils')
 const validationErrorSchema = require('./validationErrorSchema')
 const {
   USER_TYPE,
@@ -145,8 +146,7 @@ const validateUsername = async ({ username }) => {
 }
 
 const validateUserRequiredFields = user => {
-  const difference = USER_REQUIRED_PARAMETERS
-    .filter(required => !Object.keys(user).includes(required))
+  const difference = hasDifference({ body: user, required: USER_REQUIRED_PARAMETERS })
 
   if (difference.length) {
     const { code, message } = validationErrorSchema(USER_TYPE, MISSING_PARAMETER_CODE, difference)

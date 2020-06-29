@@ -3,7 +3,7 @@
 const model = require('../models/User')
 const UserError = require('../UserError')
 const { verifyPassword } = require('./password')
-const { getUserKey } = require('./utils')
+const { getUserKey, hasDifference } = require('./utils')
 const validationErrorSchema = require('./validationErrorSchema')
 const {
   LOGIN_TYPE,
@@ -64,8 +64,7 @@ const checkIfUserExists = async body => {
 }
 
 const validateLoginRequiredParameters = body => {
-  const difference = LOGIN_REQUIRED_PARAMETERS
-    .filter(required => !Object.keys(body).includes(required))
+  const difference = hasDifference({ body, required: LOGIN_REQUIRED_PARAMETERS })
 
   if (difference.length) {
     const { code, message } = validationErrorSchema(LOGIN_TYPE, MISSING_PARAMETER_CODE, difference)
