@@ -13,7 +13,11 @@ const responseMock = {
 
     return this
   },
-  end: function(text) { return text },
+  end: function(text) {
+    this.response = JSON.parse(text)
+
+    return this
+  },
   clearMocks: function() {
     delete this.status
     delete this.headers
@@ -59,10 +63,16 @@ describe('pushpin', () => {
           'Grip-Hold': 'stream',
           'Grip-Channel': 'rt:user'
         })
+
+      expect(responseMock.response)
+        .to.have.property('success', true)
+
+      expect(responseMock.response)
+        .to.have.property('message', 'Signed to channel')
     })
 
-    it('Should sign to the given channel for response', () => {
-      pushpin.sign.response({ res: responseMock, channel: 'user' })
+    it('Should sign to the given channel for response with a custom response message', () => {
+      pushpin.sign.response({ res: responseMock, channel: 'user', message: 'Received connection' })
 
       expect(responseMock)
         .to.include.any.keys('status', 'headers')
@@ -79,6 +89,12 @@ describe('pushpin', () => {
           'Grip-Hold': 'response',
           'Grip-Channel': 'user'
         })
+
+      expect(responseMock.response)
+        .to.have.property('success', true)
+
+      expect(responseMock.response)
+        .to.have.property('message', 'Received connection')
     })
   })
 })
