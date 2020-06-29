@@ -72,7 +72,10 @@ const signToChannel = ({ res, message, channel, realtime }) => {
 
   res
     .writeHead(200, headers)
-    .end(JSON.stringify({ success: true, message }))
+    .end(`${JSON.stringify({
+      success: true,
+      message: message ?? 'Signed to channel'
+    })}\n`)
 }
 
 const pushpin = {
