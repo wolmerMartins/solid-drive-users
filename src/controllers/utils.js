@@ -6,6 +6,16 @@ const {
   USERNAME_FIELD
 } = require('../constants')
 
+const maskEmail = email => {
+  const mask = []
+  const [username] = email.split(AT_SYMBOL)
+  const limit = Math.ceil(username.length / 2)
+  const start = Math.trunc(limit / 2)
+  mask.length = limit
+
+  return email.replace(email.substring(start, limit + start), mask.fill('*').join(''))
+}
+
 const hasDifference = ({ body, required }) => required.filter(field => !Object.keys(body).includes(field))
 
 const getCookies = ({ cookie }) => {
@@ -32,3 +42,4 @@ const getUserKey = ({ id, login }) => {
 exports.getUserKey = getUserKey
 exports.getCookies = getCookies
 exports.hasDifference = hasDifference
+exports.maskEmail = maskEmail
