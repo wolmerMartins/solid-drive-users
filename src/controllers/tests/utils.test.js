@@ -4,6 +4,7 @@ const chai = require('chai')
 const expect = chai.expect
 
 const {
+  maskEmail,
   getCookies,
   getUserKey,
   hasDifference
@@ -102,6 +103,15 @@ describe('utils', () => {
 
       expect(difference)
         .to.includes('username')
+    })
+  })
+
+  describe('maskEmail', () => {
+    it('Should return the email masked with \'****\'', () => {
+      const maskedEmail = maskEmail(email)
+
+      expect(maskedEmail)
+        .to.includes('****')
     })
   })
 })
