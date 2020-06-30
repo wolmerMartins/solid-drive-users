@@ -6,6 +6,7 @@ const { API_V1 } = require('../constants')
 const { generateToken } = require('./jwt')
 const mailer = require('../config/mailer')
 const controllerLogger = require('./logger')
+const { maskEmail } = require('./utils')
 
 const logger = controllerLogger.child({ module: 'mailer' })
 
@@ -32,6 +33,7 @@ const sendEmail = async ({ type, options, channel }) => {
     pushpin.publish.realtime({
       data: {
         success: true,
+        email: maskEmail(options.to),
         message: `${type} email sended successfully`
       },
       close: true,
@@ -52,6 +54,7 @@ const sendEmail = async ({ type, options, channel }) => {
         close: true,
         channel
       })
+      retries = 0
     }
   }
 }
