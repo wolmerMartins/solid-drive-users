@@ -73,7 +73,7 @@ describe('validateReenableUser', () => {
 
       const { id } = userBase
       try {
-        await shouldReenableUser(id)
+        await shouldReenableUser({ id })
       } catch(err) {
         expect(err)
           .to.have.property('statusCode', 422)

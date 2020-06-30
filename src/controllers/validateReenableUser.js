@@ -26,11 +26,12 @@ const validateReenableUserToken = async token => {
   }
 }
 
-const shouldReenableUser = async id => {
-  const user = await model.findUser({ id })
+const shouldReenableUser = async where => {
+  const user = await model.findUser(where)
+  const { id, username } = where
 
   if (!user.isDisabled) {
-    const { message, code } = validationErrorSchema(REENABLE_TYPE, REENABLE_USER_CODE, id, ENABLED_ALREADY)
+    const { message, code } = validationErrorSchema(REENABLE_TYPE, REENABLE_USER_CODE, id ?? username, ENABLED_ALREADY)
 
     throw new UserError(message, code)
   }

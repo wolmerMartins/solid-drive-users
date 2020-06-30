@@ -48,7 +48,7 @@ router.get('/:id/reenable/:token', async (req, res) => {
   const { params: { id, token } } = req
 
   try {
-    const user = await shouldReenableUser(id)
+    const user = await shouldReenableUser({ id })
     const decoded = await validateReenableUserToken(token)
     const channel = decoded.channel.replace('rt:', '')
 
