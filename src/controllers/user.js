@@ -158,7 +158,7 @@ const userController = {
   },
   reenable: async ({ user, channel }) => {
     try {
-      await user.update({ isDisabled: true })
+      await user.update({ isDisabled: false })
 
       pushpin.publish.response({
         data: {
