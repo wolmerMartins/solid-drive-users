@@ -110,7 +110,10 @@ const userController = {
       const deletedUser = await user.update({ isDisabled: true })
 
       pushpin.publish.response({
-        data: { deletedUser },
+        data: {
+          success: true,
+          message: `User ${deletedUser.id} is disabled`
+        },
         channel
       })
     } catch(error) {
@@ -169,6 +172,25 @@ const userController = {
       })
     } catch(error) {
       logger.error({ error }, `${MESSAGES[ERROR_TRYING_TO]} reenable user`)
+
+      pushpin.publish.response({
+        data: { error },
+        channel
+      })
+    }
+  },
+  logout: async ({ user, channel }) => {
+    try {
+      const { username } = user
+
+      await session.endUserSession(username)
+
+      pushpin.publish.response({
+        data: { success: true },
+        channel
+      })
+    } catch(error) {
+      logger.error({ error }, `${MESSAGES[ERROR_TRYING_TO]} logout user`)
 
       pushpin.publish.response({
         data: { error },
