@@ -28,6 +28,7 @@ const {
 
 const {
   MESSAGES,
+  COOKIE_KEY,
   ERROR_HAS_OCCURRED
 } = require('../../constants')
 
@@ -86,7 +87,7 @@ router.post('/login', async (req, res) => {
 
     const { login } = body
 
-    res.cookie('user', user.username)
+    res.cookie(COOKIE_KEY, user.username)
     const channel = signToPushpin({ res, channelName: login })
 
     userController.login(user, channel)

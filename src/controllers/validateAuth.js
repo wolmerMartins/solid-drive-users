@@ -7,6 +7,7 @@ const { getCookies } = require('./utils')
 const { verifyToken } = require('./jwt')
 const {
   AUTH_TYPE,
+  COOKIE_KEY,
   STATUS_CODES,
   FORBIDDEN_CODE,
   AUTH_TOKEN_CODE,
@@ -37,7 +38,7 @@ const verifyUser = (channel, user) => {
 
 const validateAuthToken = async headers => {
   const cookies = getCookies(headers)
-  const username = cookies.get('user')
+  const username = cookies.get(COOKIE_KEY)
 
   if (!username) return userNotLoggedIn()
 
