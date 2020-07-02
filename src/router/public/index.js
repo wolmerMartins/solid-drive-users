@@ -80,7 +80,7 @@ router.post('/login', async (req, res) => {
 
   try {
     validateLoginRequiredParameters(body)
-    const user = await checkIfUserExists(body)
+    const user = await checkIfUserExists(body, true)
     checkIfUserIsActive(user)
     checkIfUserIsNotDisabled(user)
     checkIfPasswordMatch({ body, user })
