@@ -1,17 +1,25 @@
 'use strict'
 
 const middlewareLogger = require('./logger')
+const { getCookies } = require('../controllers/utils')
 const { verifyUserAuth } = require('../controllers/validateAuth')
 const { checkIfUserExists } = require('../controllers/validateLogin')
+
+const { COOKIE_KEY } = require('../constants')
 
 const logger = middlewareLogger.child({ module: 'verifyUser' })
 
 const verifyUser = async (req, res, next) => {
-  const { params: { id } } = req
   const { locals: { channel } } = res
+  const { headers, params: { id } } = req
+
+  const cookies = getCookies(headers)
+  const username = cookies.get(COOKIE_KEY)
+
+  const body = id ? { id } : { login: username }
 
   try {
-    const user = await checkIfUserExists({ id })
+    const user = await checkIfUserExists(body)
 
     verifyUserAuth(channel, user)
 
