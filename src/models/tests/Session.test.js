@@ -33,4 +33,13 @@ describe('Session', () => {
         .to.be.equal(token)
     })
   })
+
+  describe('endUserSession', () => {
+    it('Should remove the user token from cache', async () => {
+      const result = await session.endUserSession(username)
+
+      expect(result)
+        .to.be.equal(1)
+    })
+  })
 })
