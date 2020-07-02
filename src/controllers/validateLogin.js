@@ -50,9 +50,9 @@ const checkIfPasswordMatch = ({ body, user }) => {
   }
 }
 
-const checkIfUserExists = async body => {
+const checkIfUserExists = async (body, withPassword) => {
   const where = getUserKey(body)
-  const user = await model.findUser(where)
+  const user = await model.findUser(where, withPassword)
 
   if (!user) {
     const { code, message } = validationErrorSchema(LOGIN_TYPE, NOT_FOUND_CODE, where)
