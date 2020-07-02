@@ -40,8 +40,17 @@ const setup = async (sequelize) => {
       attributes: {
         exclude: ['password']
       }
+    },
+    scopes: {
+      withPassword: {
+        attributes: {
+          include: ['password']
+        }
+      }
     }
   })
+
+  const UserWithPassword = User.scope('withPassword')
 
   await User.sync()
 
@@ -49,8 +58,11 @@ const setup = async (sequelize) => {
     return User.create(userData, { raw: true })
   }
 
-  module.exports.findUser = where => {
-    return User.findOne({ where }, { raw: true })
+  module.exports.findUser = (where, withPassword) => {
+    const Model = withPassword
+      ? UserWithPassword
+      : User
+    return Model.findOne({ where }, { raw: true })
   }
 }
 
