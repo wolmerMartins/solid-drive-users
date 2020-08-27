@@ -1,7 +1,7 @@
 'use strict'
 
 const middlewareLogger = require('./logger')
-const { validateAuthToken } = require('../controllers/validateAuth')
+const { validateAuthToken } = require('../validators/validateAuth')
 
 const logger = middlewareLogger.child({ module: 'auth' })
 

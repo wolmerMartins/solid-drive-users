@@ -1,7 +1,7 @@
 'use strict'
 
 const model = require('../models/User')
-const { verifyToken } = require('./jwt')
+const { verifyToken } = require('../controllers/jwt')
 const validationErrorSchema = require('./validationErrorSchema')
 
 const UserError = require('../UserError')

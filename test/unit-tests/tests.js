@@ -7,3 +7,7 @@ describe('controllers', () => {
 describe('models', () => {
   require('../../src/models/tests')
 })
+
+describe('validators', () => {
+  require('../../src/validators/tests')
+})

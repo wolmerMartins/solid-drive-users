@@ -11,7 +11,7 @@ const {
   shouldReenableUser,
   validateReenableUserToken,
   validateReenableUserRequiredParameters
-} = require('../../controllers/validateReenableUser')
+} = require('../../validators/validateReenableUser')
 
 const {
   MESSAGES,

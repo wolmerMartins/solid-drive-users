@@ -2,7 +2,7 @@
 
 const model = require('../models/User')
 const UserError = require('../UserError')
-const { hasDifference } = require('./utils')
+const { hasDifference } = require('../controllers/utils')
 const validationErrorSchema = require('./validationErrorSchema')
 const {
   USER_TYPE,

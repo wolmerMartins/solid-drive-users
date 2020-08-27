@@ -4,7 +4,7 @@ const chai = require('chai')
 const SequelizeMock = require('sequelize-mock')
 
 const userModel = require('../../models/User')
-const { hashPassword } = require('../password')
+const { hashPassword } = require('../../controllers/password')
 const {
   checkIfUserExists,
   checkIfUserIsActive,

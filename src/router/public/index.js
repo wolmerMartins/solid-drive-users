@@ -9,22 +9,22 @@ const routerLogger = require('../logger')
 const pushpin = require('../../controllers/pushpin')
 const userController = require('../../controllers/user')
 const {
-  validateUserRequiredFields,
-  validateUsername,
   validateEmail,
-  validatePassword
-} = require('../../controllers/validateUser')
+  validateUsername,
+  validatePassword,
+  validateUserRequiredFields
+} = require('../../validators/validateUser')
 const {
   checkIfUserExists,
   checkIfUserIsActive,
   checkIfPasswordMatch,
   checkIfUserIsNotDisabled,
   validateLoginRequiredParameters
-} = require('../../controllers/validateLogin')
+} = require('../../validators/validateLogin')
 const {
   shouldActivateUser,
   validateActivationToken
-} = require('../../controllers/validateActivateUser')
+} = require('../../validators/validateActivateUser')
 
 const {
   MESSAGES,

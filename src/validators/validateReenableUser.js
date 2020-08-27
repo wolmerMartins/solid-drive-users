@@ -1,8 +1,8 @@
 'use strict'
 
 const model = require('../models/User')
-const { verifyToken } = require('./jwt')
-const { hasDifference } = require('./utils')
+const { verifyToken } = require('../controllers/jwt')
+const { hasDifference } = require('../controllers/utils')
 const validationErrorSchema = require('./validationErrorSchema')
 
 const UserError = require('../UserError')
