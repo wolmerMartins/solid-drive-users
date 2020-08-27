@@ -3,8 +3,8 @@
 const UserError = require('../UserError')
 const Session = require('../models/Session')
 const validationErrorSchema = require('./validationErrorSchema')
-const { getCookies } = require('./utils')
-const { verifyToken } = require('./jwt')
+const { getCookies } = require('../controllers/utils')
+const { verifyToken } = require('../controllers/jwt')
 const {
   AUTH_TYPE,
   COOKIE_KEY,

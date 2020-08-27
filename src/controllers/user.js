@@ -9,7 +9,7 @@ const pushpin = require('./pushpin')
 const { generateToken } = require('./jwt')
 const controllerLogger = require('./logger')
 const { hashPassword } = require('./password')
-const { shouldReenableUser } = require('./validateReenableUser')
+const { shouldReenableUser } = require('../validators/validateReenableUser')
 const {
   sendReenableEmail,
   sendActivationEmail
@@ -18,7 +18,7 @@ const {
   validateEmail,
   validateUsername,
   validatePassword
-} = require('./validateUser')
+} = require('../validators/validateUser')
 
 const { MESSAGES, ERROR_TRYING_TO } = require('../constants')
 

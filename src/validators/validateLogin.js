@@ -2,9 +2,9 @@
 
 const model = require('../models/User')
 const UserError = require('../UserError')
-const { verifyPassword } = require('./password')
-const { getUserKey, hasDifference } = require('./utils')
+const { verifyPassword } = require('../controllers/password')
 const validationErrorSchema = require('./validationErrorSchema')
+const { getUserKey, hasDifference } = require('../controllers/utils')
 const {
   LOGIN_TYPE,
   DONT_MATCH,

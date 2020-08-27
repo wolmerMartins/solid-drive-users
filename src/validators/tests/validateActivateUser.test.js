@@ -7,7 +7,7 @@ const expect = chai.expect
 const dbMock = new SequelizeMock()
 
 const userModel = require('../../models/User')
-const { hashPassword } = require('../password')
+const { hashPassword } = require('../../controllers/password')
 const {
   shouldActivateUser,
   validateActivationToken

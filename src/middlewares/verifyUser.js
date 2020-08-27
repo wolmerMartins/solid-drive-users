@@ -2,8 +2,8 @@
 
 const middlewareLogger = require('./logger')
 const { getCookies } = require('../controllers/utils')
-const { verifyUserAuth } = require('../controllers/validateAuth')
-const { checkIfUserExists } = require('../controllers/validateLogin')
+const { verifyUserAuth } = require('../validators/validateAuth')
+const { checkIfUserExists } = require('../validators/validateLogin')
 
 const { COOKIE_KEY } = require('../constants')
 
