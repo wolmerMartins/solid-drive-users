@@ -4,13 +4,14 @@ const express = require('express')
 const router = express.Router()
 
 const verifyUser = require('../../middlewares/verifyUser')
+const validateBody = require('../../middlewares/validateBody')
 
 const pushpin = require('../../controllers/pushpin')
 const userController = require('../../controllers/user')
 
 const { COOKIE_KEY } = require('../../constants')
 
-router.put('/:id', verifyUser, (req, res) => {
+router.put('/:id', verifyUser, validateBody, (req, res) => {
   const { body } = req
   const { locals: { user, channel } } = res
 

@@ -8,12 +8,7 @@ const reenableRouter = require('./reenableRoutes')
 const routerLogger = require('../logger')
 const pushpin = require('../../controllers/pushpin')
 const userController = require('../../controllers/user')
-const {
-  validateEmail,
-  validateUsername,
-  validatePassword,
-  validateUserRequiredFields
-} = require('../../validators/validateUser')
+const validateBody = require('../../middlewares/validateBody')
 const {
   checkIfUserExists,
   checkIfUserIsActive,
@@ -54,25 +49,13 @@ const signToPushpin = ({ res, channelName, realtime }) => {
 
 router.use(reenableRouter)
 
-router.post('/', async (req, res) => {
+router.post('/', validateBody, async (req, res) => {
   const { body } = req
+  const { locals: { channel } } = res
 
-  try {
-    validateUserRequiredFields(body)
-    await validateUsername(body)
-    await validateEmail(body)
-    validatePassword(body)
+  pushpin.sign.realtime({ res, channel })
 
-    const { username } = body
-
-    const channel = signToPushpin({ res, channelName: username, realtime: true })
-
-    userController.create(body, channel)
-  } catch(error) {
-    logger.error({ error }, `${MESSAGES[ERROR_HAS_OCCURRED]} create user`)
-
-    errorResponse({ res, error })
-  }
+  userController.create(body, channel)
 })
 
 router.post('/login', async (req, res) => {
