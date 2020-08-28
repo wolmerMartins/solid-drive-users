@@ -14,11 +14,6 @@ const {
   sendReenableEmail,
   sendActivationEmail
 } = require('./mailer')
-const {
-  validateEmail,
-  validateUsername,
-  validatePassword
-} = require('../validators/validateUser')
 
 const { MESSAGES, ERROR_TRYING_TO } = require('../constants')
 
@@ -89,10 +84,6 @@ const userController = {
     }
 
     try {
-      await validateUsername(body)
-      await validateEmail(body)
-      validatePassword(body)
-
       const updatedUser = await user.update(body)
 
       pushpin.publish.response({
