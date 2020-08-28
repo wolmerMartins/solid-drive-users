@@ -31,7 +31,8 @@ const verifyUser = (channel, user) => {
   const channelParts = channel.split(':')
   const channelUser = channelParts[channelParts.length - 1]
 
-  if (channelUser !== user.username) {
+  const { username, email } = user
+  if (channelUser !== username && channelUser !== email) {
     return forbiddenAccess()
   }
 }
