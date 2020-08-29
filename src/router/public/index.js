@@ -9,13 +9,7 @@ const routerLogger = require('../logger')
 const pushpin = require('../../controllers/pushpin')
 const userController = require('../../controllers/user')
 const validateBody = require('../../middlewares/validateBody')
-const {
-  checkIfUserExists,
-  checkIfUserIsActive,
-  checkIfPasswordMatch,
-  checkIfUserIsNotDisabled,
-  validateLoginRequiredParameters
-} = require('../../validators/validateLogin')
+const validateLoginBody = require('../../middlewares/validateLoginBody')
 const {
   shouldActivateUser,
   validateActivationToken
@@ -35,18 +29,6 @@ const errorResponse = ({ res, error }) => {
   res.status(statusCode ?? 400).json({ message, code })
 }
 
-const signToPushpin = ({ res, channelName, realtime }) => {
-  const channel = pushpin.getChannel({ channelName, realtime })
-
-  if (realtime) {
-    pushpin.sign.realtime({ res, channel })
-  } else {
-    pushpin.sign.response({ res, channel })
-  }
-
-  return channel
-}
-
 router.use(reenableRouter)
 
 router.post('/', validateBody, async (req, res) => {
@@ -58,27 +40,13 @@ router.post('/', validateBody, async (req, res) => {
   userController.create(body, channel)
 })
 
-router.post('/login', async (req, res) => {
-  const { body } = req
+router.post('/login', validateLoginBody, async (req, res) => {
+  const { locals: { user, channel } } = res
 
-  try {
-    validateLoginRequiredParameters(body)
-    const user = await checkIfUserExists(body, true)
-    checkIfUserIsActive(user)
-    checkIfUserIsNotDisabled(user)
-    checkIfPasswordMatch({ body, user })
+  res.cookie(COOKIE_KEY, user.username)
+  pushpin.sign.response({ res, channel })
 
-    const { login } = body
-
-    res.cookie(COOKIE_KEY, user.username)
-    const channel = signToPushpin({ res, channelName: login })
-
-    userController.login(user, channel)
-  } catch(error) {
-    logger.error({ error }, `${MESSAGES[ERROR_HAS_OCCURRED]} login user`)
-
-    errorResponse({ res, error })
-  }
+  userController.login(user, channel)
 })
 
 router.get('/:id/activate/:token', async (req, res) => {
