@@ -62,7 +62,7 @@ const setup = async (sequelize) => {
     const Model = withPassword
       ? UserWithPassword
       : User
-    return Model.findOne({ where }, { raw: true })
+    return Model.findOne({ where, limit: 1 }, { raw: true })
   }
 }
 
