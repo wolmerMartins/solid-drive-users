@@ -10,12 +10,17 @@ const userController = require('../../controllers/user')
 const validateBody = require('../../middlewares/validateBody')
 const validateLoginBody = require('../../middlewares/validateLoginBody')
 const validateActivation = require('../../middlewares/validateActivation')
+const validateUserExistance = require('../../middlewares/validateUserExistance')
 
 const { COOKIE_KEY } = require('../../constants')
 
 router.use(reenableRouter)
 
-router.post('/', validateBody, async (req, res) => {
+router.get('/:username/exists', validateUserExistance, (req, res) => {
+  res.status(200).json({ success: true })
+})
+
+router.post('/', validateBody, (req, res) => {
   const { body } = req
   const { locals: { channel } } = res
 
@@ -24,7 +29,7 @@ router.post('/', validateBody, async (req, res) => {
   userController.create(body, channel)
 })
 
-router.post('/login', validateLoginBody, async (req, res) => {
+router.post('/login', validateLoginBody, (req, res) => {
   const { locals: { user, channel } } = res
 
   res.cookie(COOKIE_KEY, user.username)
@@ -33,7 +38,7 @@ router.post('/login', validateLoginBody, async (req, res) => {
   userController.login(user, channel)
 })
 
-router.get('/:id/activate/:token', validateActivation, async (req, res) => {
+router.get('/:id/activate/:token', validateActivation, (req, res) => {
   const { locals: { user, channel } } = res
 
   pushpin.sign.response({
