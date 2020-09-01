@@ -9,7 +9,6 @@ const pushpin = require('./pushpin')
 const { generateToken } = require('./jwt')
 const controllerLogger = require('./logger')
 const { hashPassword } = require('./password')
-const { shouldReenableUser } = require('../validators/validateReenableUser')
 const {
   sendReenableEmail,
   sendActivationEmail
@@ -130,10 +129,8 @@ const userController = {
       sendErrorResponse({ error, channel })
     }
   },
-  reenableEmail: async ({ username, channel }) => {
+  reenableEmail: ({ user, channel }) => {
     try {
-      const user = await shouldReenableUser({ username })
-
       sendReenableEmail({ user, channel })
 
       pushpin.publish.realtime({
