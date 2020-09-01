@@ -15,7 +15,7 @@ router.post('/reenable', validateReenableUser, (req, res) => {
   userController.reenableEmail({ user, channel })
 })
 
-router.get('/:id/reenable/:token', validateReenableUser, async (req, res) => {
+router.get('/:id/reenable/:token', validateReenableUser, (req, res) => {
   const { locals: { user, channel } } = res
 
   pushpin.sign.response({
