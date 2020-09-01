@@ -12,22 +12,26 @@ const logger = middlewareLogger.child({ module: 'validateReenableUser' })
 
 const validateReenableUser = async (req, res, next) => {
   const { body, params: { id, token } } = req
+  let where = { id }
+  let channel
 
   try {
-    if (id && token) {
-      const user = await shouldReenableUser({ id })
+    if (id) {
       const decoded = await validateReenableUserToken(token)
-      const channel = decoded.channel.replace('rt:', '')
-
-      res.locals.user = user
-      res.locals.channel = channel
+      channel = decoded.channel.replace('rt:', '')
     } else {
       validateReenableUserRequiredParameters(body)
 
       const { username } = body
-      res.locals.username = username
-      res.locals.channel = getChannel({ channelName: username, realtime: true })
+
+      where = { username }
+      channel = getChannel({ channelName: username, realtime: true })
     }
+
+    const user = await shouldReenableUser(where)
+
+    res.locals.user = user
+    res.locals.channel = channel
 
     next()
   } catch(error) {

@@ -8,11 +8,11 @@ const userController = require('../../controllers/user')
 const validateReenableUser = require('../../middlewares/validateReenableUser')
 
 router.post('/reenable', validateReenableUser, (req, res) => {
-  const { locals: { channel, username } } = res
+  const { locals: { channel, user } } = res
 
   pushpin.sign.realtime({ channel, res })
 
-  userController.reenableEmail({ username, channel })
+  userController.reenableEmail({ user, channel })
 })
 
 router.get('/:id/reenable/:token', validateReenableUser, async (req, res) => {
