@@ -13,7 +13,7 @@
   "author": "Wolmer Martins <wolmermartins@hotmail.com>",
   "license": "MIT",
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "custom-env": "^2.0.1",
     "express": "^4.17.1",
     "helmet": "^3.22.0",
